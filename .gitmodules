@@ -1,0 +1,3 @@
+[submodule "app/pyapp"]
+	path = app/pyapp
+	url = https://github.com/Melcoo/EATesterPy.git
