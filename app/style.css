@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: lightslategray;
+    font-family: Open Sans;
+    font-size: 14px;
+    position: relative;
+    font-weight: 400;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+  
+p {
+    font-family: verdana;
+    font-size:14px;
+}
+
+form {
+    font-family: verdana;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 1vh;   
+}
+
+button {
+    padding: 12px 15px;
+    margin: 5px;
+    border: 1px solid #e7e7e7;
+    background-color: #f7f7f7;
+    text-align: center;    
+    border-radius: 5px;
+}
+
+#quit-btn {
+    position: relative;
+
+    left: 50%;
+    margin-top: 5vh;
+    transform: translate(-50%, 500%);
+}
+
+.div-text {
+    margin-top: 2vh;
+    position: absolute;
+    transform: translate(40%, 0);
+}

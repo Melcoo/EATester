@@ -1,0 +1,56 @@
+{
+  "name": "eatester",
+  "version": "1.0.0",
+  "description": "Executable app to automatically test MT4 Expert Advisors",
+  "main": "main.js",
+  "scripts": {
+    "app": "electron .",
+    "build": "electron-builder --win",
+    "buildpy": "cd app/pyapp && buildpy.bat",
+    "publish": "electron-builder --publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Melcoo/EATester.git"
+  },
+  "keywords": [
+    "MetaTrader",
+    "Expert",
+    "Advisor",
+    "test",
+    "framework",
+    "electron",
+    "python",
+    "javascript"
+  ],
+  "author": "Mihai Tinca",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Melcoo/EATester/issues"
+  },
+  "homepage": "https://github.com/Melcoo/EATester#readme",
+  "devDependencies": {
+    "electron": "^9.0.5",
+    "electron-builder": "^22.7.0"
+  },
+  "dependencies": {
+    "npm-run-batch": "0.0.9",
+    "python-shell": "^2.0.1"
+  },
+  "build": {
+    "appId": "com.electron.eatester",
+    "copyright": "Mihai Tinca",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
+    "extraFiles": [
+      "app/pyapp/dist/pyapp.exe"
+    ],
+    "nsis": {
+      "oneClick": "false",
+      "perMachine": "false",
+      "allowToChangeInstallationDirectory": "true"
+    }
+  }
+}
