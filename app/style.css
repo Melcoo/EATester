@@ -39,10 +39,10 @@ button {
 }
 
 #quit-btn {
-    position: relative;
+    position: absolute;
 
     left: 50%;
-    margin-top: 5vh;
+    margin-bottom: 2vh;
     transform: translate(-50%, 500%);
 }
 

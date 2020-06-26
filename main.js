@@ -1,12 +1,9 @@
 const electron = require('electron');
-const electronReload = require('electron-reload');
 const { app, BrowserWindow, ipcMain } = electron;
+require('electron-reload')(__dirname);
+
+
 let mainWindow;
-
-
-// Automatically reload app content
-electronReload(__dirname);
-
 app.on('ready', () =>  {
     mainWindow = new BrowserWindow({
         webPreferences: { nodeIntegration: true },
@@ -24,6 +21,21 @@ ipcMain.on('ev_app_quit', (event, content) => {
     app.quit();
 });
 
+
+// Create a Menu template with one array element(our app has only one dropdown menu)
+const menuTemplate = [
+    {
+        label: 'File',
+        submenu: [
+            {
+                label: 'Submenu',
+                click() {
+                    console.log('Clicked on File -> Submenu');
+                }
+            }
+        ]
+    }
+];
 
 if (process.env.NODE_ENV !== 'production') {
     menuTemplate.push({

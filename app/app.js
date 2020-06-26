@@ -1,4 +1,4 @@
-const { ipcRenderer, remote, process } = require('electron');
+const { ipcRenderer, process } = require('electron');
 let { PythonShell } = require('python-shell');
 const path = require('path');
 
@@ -8,11 +8,19 @@ ipcRenderer.on('ev1', (event, content) => {
     console.log(`Here is event ev1 with content ${content}`);
 })
 
-document.getElementById('python-exe-btn').addEventListener('click', () =>{
-    testSpawnPython();
+document.getElementById('py-templ-btn').addEventListener('click', () =>{
+    spawnPyApp('templ', '');
 });
 
-document.getElementById('python-clear-btn').addEventListener('click', () =>{
+document.getElementById('py-eatester-btn').addEventListener('click', () =>{
+    spawnPyApp('eatester', '');
+});
+
+document.getElementById('py-report-btn').addEventListener('click', () =>{
+    spawnPyApp('report', '');
+});
+
+document.getElementById('py-clear-btn').addEventListener('click', () =>{
     pyOutput = '';
     document.querySelector('.div-text').innerHTML = '';
 });
@@ -23,19 +31,18 @@ document.getElementById('quit-btn').addEventListener('click', () =>{
 });
 
 
-async function testSpawnPython() {
+async function spawnPyApp(app, args) {
     let pyOutput = '';
     const { spawn } = require('child_process');
 
     // Python spawn - careful at python application location
     // For built app
-    // const pyApp = await spawn('cmd', ['/c', path.join(__dirname, '..\\..\\..', 'app\\pyapp\\dist\\pyapp.exe'), '3']);
+    // const pyApp = await spawn(path.join(__dirname, '..\\..\\..', `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe`), [args]);
     // For running app
-    const pyApp = await spawn('cmd', ['/c', path.join(__dirname, '\\pyapp\\dist\\pyapp.exe'), '3']);
+    // const pyApp = await spawn('cmd', ['/c', path.join(__dirname, `\\pyapp\\EATesterPy\\Tester\\dist\\templ.exe`), args]);
+    const pyApp = await spawn(path.join(__dirname, `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe`), [args]);
 
     pyApp.stdout.on('data', (data) => {
-        let date = new Date();
-
         pyOutput += `<p>${data}</p>`;
         document.querySelector('.div-text').innerHTML = pyOutput;
     });

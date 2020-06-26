@@ -6,7 +6,7 @@
   "scripts": {
     "app": "electron .",
     "build": "electron-builder --win",
-    "buildpy": "cd app/pyapp && buildpy.bat",
+    "buildpy": "cd app/pyapp/EATesterPy/Tester && buildpy.bat",
     "publish": "electron-builder --publish"
   },
   "repository": {
@@ -31,7 +31,8 @@
   "homepage": "https://github.com/Melcoo/EATester#readme",
   "devDependencies": {
     "electron": "^9.0.5",
-    "electron-builder": "^22.7.0"
+    "electron-builder": "^22.7.0",
+    "electron-reload": "^1.5.0"
   },
   "dependencies": {
     "npm-run-batch": "0.0.9",
@@ -45,7 +46,9 @@
       "icon": "build/icon.png"
     },
     "extraFiles": [
-      "app/pyapp/dist/pyapp.exe"
+      "app/pyapp/StrategyTester/Tester/dist/eatester.exe",
+      "app/pyapp/StrategyTester/Tester/dist/reports.exe",
+      "app/pyapp/StrategyTester/Tester/dist/templ.exe"
     ],
     "nsis": {
       "oneClick": "false",
