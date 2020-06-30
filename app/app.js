@@ -17,7 +17,7 @@ document.getElementById('py-eatester-btn').addEventListener('click', () =>{
 });
 
 document.getElementById('py-report-btn').addEventListener('click', () =>{
-    spawnPyApp('report', '');
+    spawnPyApp('reports', '');
 });
 
 document.getElementById('py-clear-btn').addEventListener('click', () =>{
