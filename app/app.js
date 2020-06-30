@@ -1,7 +1,6 @@
-const { ipcRenderer, process } = require('electron');
+const { ipcRenderer, shell } = require('electron');
 let { PythonShell } = require('python-shell');
 const path = require('path');
-
 
 
 ipcRenderer.on('ev1', (event, content) => {
@@ -9,15 +8,15 @@ ipcRenderer.on('ev1', (event, content) => {
 })
 
 document.getElementById('py-templ-btn').addEventListener('click', () =>{
-    spawnPyApp('templ', '');
+    spawnPyApp('templ');
 });
 
 document.getElementById('py-eatester-btn').addEventListener('click', () =>{
-    spawnPyApp('eatester', '');
+    spawnPyApp('eatester');
 });
 
 document.getElementById('py-report-btn').addEventListener('click', () =>{
-    spawnPyApp('reports', '');
+    spawnPyApp('reports');
 });
 
 document.getElementById('py-clear-btn').addEventListener('click', () =>{
@@ -30,9 +29,8 @@ document.getElementById('quit-btn').addEventListener('click', () =>{
     ipcRenderer.send('ev_app_quit');
 });
 
-
-async function spawnPyApp(app, args) {
-    let pyOutput = '';
+let pyOutput = '';
+async function spawnPyApp(app, args=[]) {
     const { spawn } = require('child_process');
 
     // Python spawn - careful at python application location
@@ -40,8 +38,8 @@ async function spawnPyApp(app, args) {
     // const pyApp = await spawn(path.join(__dirname, '..\\..\\..', `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe`), [args]);
     // For running app
     // const pyApp = await spawn('cmd', ['/c', path.join(__dirname, `\\pyapp\\EATesterPy\\Tester\\dist\\templ.exe`), args]);
-    const pyApp = await spawn(path.join(__dirname, `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe`), [args]);
-
+    const pyApp = await spawn(`"` + __dirname + `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe"`, args, {shell:true});
+ 
     pyApp.stdout.on('data', (data) => {
         pyOutput += `<p>${data}</p>`;
         document.querySelector('.div-text').innerHTML = pyOutput;
@@ -50,12 +48,7 @@ async function spawnPyApp(app, args) {
     pyApp.stderr.on('data', (data) => {
         console.error(`Python: stderr: ${data}`);
     });
-    
-    pyApp.on('exit', (code) => {
-        console.log(`Python: child process exited with code ${code}`);
-    });
 }
-
 
 
 PythonShell.defaultOptions = {
