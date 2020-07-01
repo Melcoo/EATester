@@ -1,5 +1,5 @@
 {
-  "name": "eatester",
+  "name": "EATester",
   "version": "1.0.0",
   "description": "Executable app to automatically test MT4 Expert Advisors",
   "main": "main.js",
@@ -46,9 +46,16 @@
       "icon": "build/icon.png"
     },
     "extraFiles": [
-      "app/pyapp/StrategyTester/Tester/dist/eatester.exe",
-      "app/pyapp/StrategyTester/Tester/dist/reports.exe",
-      "app/pyapp/StrategyTester/Tester/dist/templ.exe"
+      "app/pyapp/EATesterPy/Tester/dist/eatester.exe",
+      "app/pyapp/EATesterPy/Tester/dist/reports.exe",
+      "app/pyapp/EATesterPy/Tester/dist/templ.exe",
+      "app/pyapp/EATesterPy/Templ/ea_settings_templ.ini",
+      "app/pyapp/EATesterPy/Templ/ea_settings_templ.json",
+      "app/pyapp/EATesterPy/Templ/st_settings_templ.ini",
+      "app/pyapp/EATesterPy/Settings/st_settings.ini",
+      "app/pyapp/EATesterPy/Settings/st_settings_min.json",
+      "app/pyapp/EATesterPy/Settings/usr_settings.json",
+      "app/pyapp/EATesterPy/Reports/report.json"
     ],
     "nsis": {
       "oneClick": "false",

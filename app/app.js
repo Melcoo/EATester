@@ -33,12 +33,10 @@ let pyOutput = '';
 async function spawnPyApp(app, args=[]) {
     const { spawn } = require('child_process');
 
-    // Python spawn - careful at python application location
     // For built app
-    // const pyApp = await spawn(path.join(__dirname, '..\\..\\..', `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe`), [args]);
+    const pyApp = await spawn(`"` + path.join(__dirname, '..\\..\\..') + `\\app\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe"`, args, {shell:true});
     // For running app
-    // const pyApp = await spawn('cmd', ['/c', path.join(__dirname, `\\pyapp\\EATesterPy\\Tester\\dist\\templ.exe`), args]);
-    const pyApp = await spawn(`"` + __dirname + `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe"`, args, {shell:true});
+    // const pyApp = await spawn(`"` + __dirname + `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe"`, args, {shell:true});
  
     pyApp.stdout.on('data', (data) => {
         pyOutput += `<p>${data}</p>`;
