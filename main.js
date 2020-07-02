@@ -1,6 +1,7 @@
 const electron = require('electron');
 const { app, BrowserWindow, ipcMain } = electron;
-require('electron-reload')(__dirname);
+// require('electron-reload')(__dirname);
+const updater = require('./updater.js');
 
 
 let mainWindow;
@@ -11,6 +12,11 @@ app.on('ready', () =>  {
         height: 500
     });
     mainWindow.loadURL(`file://${__dirname}/app/main.html`);
+    // TODO: Remove for production
+    // mainWindow.webContents.openDevTools();
+    // Check for updates 10 seconds after launch
+    setTimeout(updater, 10000);
+    
     mainWindow.on('closed', () => {
         mainWindow = null;
         app.quit()

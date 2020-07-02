@@ -1,13 +1,14 @@
 {
   "name": "EATester",
   "version": "1.0.0",
-  "description": "Executable app to automatically test MT4 Expert Advisors",
+  "description": "Application to automatically test MT4 Expert Advisors",
   "main": "main.js",
   "scripts": {
     "app": "electron .",
     "build": "electron-builder --win",
     "buildpy": "cd app/pyapp/EATesterPy/Tester && buildpy.bat",
-    "publish": "electron-builder --publish"
+    "release": "electron-builder --publish 'onTagOrDraft'",
+    "win-cert": "electron-builder create-self-signed-cert -p eatester"
   },
   "repository": {
     "type": "git",
@@ -35,15 +36,23 @@
     "electron-reload": "^1.5.0"
   },
   "dependencies": {
+    "electron-log": "^4.2.2",
+    "electron-updater": "^4.3.1",
     "npm-run-batch": "0.0.9",
     "python-shell": "^2.0.1"
   },
   "build": {
     "appId": "com.electron.eatester",
     "copyright": "Mihai Tinca",
+    "publish": {
+      "provider": "github"
+    },
     "win": {
-      "target": "nsis",
-      "icon": "build/icon.png"
+      "icon": "build/icon.png",
+      "certificateFile": "private/eatester.pfx",
+      "certificatePassword": "",
+      "verifyUpdateCodeSignature": false,
+      "publisherName": "eatester"
     },
     "extraFiles": [
       "app/pyapp/EATesterPy/Tester/dist/eatester.exe",
