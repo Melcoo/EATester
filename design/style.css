@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    background: dimgray;
+    color: whitesmoke;
+    align-self: stretch;
+}
+
+#title__bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: red;
+    background: wheat;
+    align-items: center;
+    -webkit-app-region: drag;
+}
+
+.title__bar--btn {
+    padding: 8px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+.title__bar--btn:active { transform: translateY(1px); } 
+
