@@ -10,12 +10,56 @@
     <title>EA Tester</title>
 </head>
 <body>
-    <div id="title__bar">
-        <header>
-            <div class="title__bar--btn" id="btn-close"><ion-icon src="close-circle-outline.svg"></ion-icon></div>
-            <div class="title__bar--btn" id="btn-minimize"><ion-icon src="remove-outline.svg"></ion-icon></div>
-        </header>
 
+    <div class="titlebar">
+        <div class="bar clearfix">
+            <div class="nav">
+                <button class="nav__btn" id="nav__btn--ea">EA</button>
+                <button class="nav__btn" id="nav__btn--param">PARAM</button>
+                <button class="nav__btn" id="nav__btn--res">RESULT</button>
+            </div>
+
+            <div class="window">
+                <button class="window__btn" id="window__btn--minimize"><ion-icon src="remove-outline.svg"></ion-icon></button>
+                <button class="window__btn" id="window__btn--close"><ion-icon src="close-circle-outline.svg"></ion-icon></button>
+            </div>    
+        </div>
+    </div>
+
+
+
+    <div class="top">
+        <div class="ea clearfix">
+            <div class="ea__more">
+                <button id="ea__more--btn">More..</button>
+            </div>
+
+            <div class="ea__content">
+                <div class="ea__title">
+                    <p>EA Tester</p>
+                </div>
+
+                <div class="ea__mt4path">
+                    <P>This is the MT4 path</P>
+                </div> 
+                
+                <div class="ea__ealist">
+                    <p>This is the EA list</p>
+                </div>
+
+                <div class="ea__getparams">
+                    <button id="ea__getparams--btn">Next</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <div class="bottom clearfix">
+        <div class="trademark">
+            <p>	&trade; EA Tester</p>
+        </div>
     </div>
 
     <script src="app.js"></script>
