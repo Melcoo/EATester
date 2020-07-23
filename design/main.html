@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:300,400,600,700" rel="stylesheet" type="text/css">
     <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
     <link type="text/css" rel="stylesheet" href="style.css">
@@ -11,7 +12,7 @@
 </head>
 <body>
 
-    <div class="titlebar">
+    <div class="titlebar noselect">
         <div class="bar clearfix">
             <div class="nav">
                 <button class="nav__btn" id="nav__btn--ea">EA</button>
@@ -29,26 +30,35 @@
 
 
     <div class="top">
-        <div class="ea clearfix">
+        <div class="ea clearfix noselect">
             <div class="ea__more">
                 <button id="ea__more--btn">More..</button>
             </div>
 
             <div class="ea__content">
-                <div class="ea__title">
+                <div id="ea__title">
                     <p>EA Tester</p>
                 </div>
 
-                <div class="ea__mt4path">
-                    <P>This is the MT4 path</P>
+                <div class="ea__mt4path clearfix">
+                    <p>Please provide path to MT4 terminal.exe</p>
+                    <div class="ea__mt4path--browse">
+                        <label class="ea__mt4path--label" for="ea__mt4path--file">Browse&hellip;</label>
+                        <input type="file" id="ea__mt4path--file" name="mt4_file">
+                    </div>
+
+                    <div class="ea__mt4path--textbox">
+                        <textarea name="mt4_path" id="ea__mt4path--path" cols="53" rows="1" wrap="hard" placeholder="Ex: C:\Program Files (x86)\TeleTRADE MT4\terminal.exe"></textarea>
+                    </div>
                 </div> 
                 
                 <div class="ea__ealist">
-                    <p>This is the EA list</p>
+                    <p>Please choose Expert Advisor</p>
+                    
                 </div>
 
                 <div class="ea__getparams">
-                    <button id="ea__getparams--btn">Next</button>
+                    <button id="ea__getparams--btn">Continue</button>
                 </div>
             </div>
         </div>
