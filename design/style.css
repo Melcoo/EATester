@@ -154,7 +154,7 @@ body {
 
 .ea__mt4path {
     position: absolute;
-    top: 300px;
+    top: 330px;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 15px;
@@ -199,8 +199,10 @@ body {
 }
 
 #ea__mt4path--path {
+    font-size: 13px;
     border-radius: 3px;
     border-color: #79bac1;
+    background-color: #f1f3f4;
     padding: 9px;
     resize: none;
 }
@@ -214,19 +216,56 @@ body {
     outline: none;
 }
 
+
+
 .ea__ealist {
     position: absolute;
-    top: 400px;
-    left: 367px;
-    /* transform: translate(-50%, -50%); */
+    top: 410px;
+    left: 365px;
     font-size: 15px;
     color: #2a7886;
 }
 
+.ea__ealist--select {
+    display: block;
+    padding: 7px;
+    margin-top: 10px;
+    transform: translateX(-7px);
+    width: 290px;
+    border-radius: 3px;
+    border-color: #79bac1;
+    font-size: 16px;
+    color: #2a7886;
+    background-color: #f1f3f4;
+    font-weight: 600;
+    
+}
+
+.ea__ealist--select:hover {
+    border-color: #2a7886;
+    transition: all 0.3s;    
+}
+
+.ea__ealist--select:focus {
+    outline: none;
+}
+
+.ea__ealist--select::-ms-expand {
+	display: none;
+}
+
+.ea__ealist--select option {
+    background-color: #f1f3f4;
+}
+
+
+
+
+
 .ea__getparams {
     position: absolute;
     bottom: 70px;
-    left: 368px;
+    left: 367px;
 }
 
 #ea__getparams--btn {
