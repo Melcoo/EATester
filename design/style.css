@@ -33,6 +33,10 @@ body {
     user-select: none;
 }
 
+.nonactive {
+    opacity: 30%;
+}
+
 .right { float: right; }
 
 /***********************************************************
@@ -277,7 +281,6 @@ body {
     border: none;
     border-radius: 3px;
     transition: all 0.15s;
-    /* opacity: 50%; */
 }
 
 #ea__getparams--btn:active{ 
