@@ -1,0 +1,142 @@
+/***********************************************************
+*** GENERAL
+***********************************************************/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    position: absolute;
+    visibility: hidden;
+  }
+
+body {
+    background: #f1f3f4;
+    color: #512b58;
+    font-family: Open Sans;
+    font-size: 14px;
+    height: 100vh;
+    font-weight: 400;
+    position: relative;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.noselect {
+    user-select: none;
+}
+
+.pageactive {
+    color: #512b58;
+    background-color: #79bac1;
+}
+
+.nonactive {
+    opacity: 30%;
+}
+
+.right { float: right; }
+
+/***********************************************************
+*** TITLE BAR
+***********************************************************/
+.titlebar {
+    -webkit-app-region: drag;
+}
+
+.bar {
+    background: #2a7886;
+    margin: 0;
+}
+
+.nav {
+    padding: 8px 10px;
+    font-size: 1rem;
+    float: left;
+    -webkit-app-region: no-drag;
+}
+
+.nav__btn {
+    margin: 0 5px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #79bac1;
+    background-color: #2a7886;
+    padding: 4px 10px 0;
+    border: none;
+    border-radius: 3px;
+    transition: all 0.15s;
+}
+
+.nav__btn:active{ 
+    outline: none;
+    transform: translateY(1px); 
+}
+
+.nav__btn:hover{
+    color: #2a7886;
+    background-color: #79bac1;
+}
+
+.nav__btn:focus{
+    outline: none;
+}
+
+.menubtnactive {
+    color: #512b58;
+    background-color: #79bac1;
+}
+
+.window {
+    margin-top: 5px;
+    margin-right: 10px;
+    float: right;
+}
+
+.window__btn {
+    padding: 5px 5px;
+    font-size: 15px;
+    background: none;
+    border: none;
+    color: #512b58;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-app-region: no-drag;
+}
+
+.window__btn:active { transform: translateY(1px); } 
+
+.window__btn:focus{
+    outline: none;
+}
+
+/***********************************************************
+*** TOP PART
+***********************************************************/
+.top {
+    position: relative;
+}
+
+
+/***********************************************************
+*** BOTTOM PART
+***********************************************************/
+.bottom {
+    position: absolute;
+    height: 32px;
+    bottom: 0;
+}
+
+.trademark {
+    float: left;
+    margin: 5px 15px 0;
+    font-weight: 500;
+    font-family: Libre Baskerville;
+}
