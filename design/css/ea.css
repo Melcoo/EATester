@@ -30,15 +30,12 @@
 /***********************************************************
 *** TITLE
 ***********************************************************/
-#ea__title {
+
+#ea--title {
     position: absolute;
     top: 120px;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 45px;
-    font-weight: 700;
-    /* color: #2a7886; */
-    font-family: Open Sans;
 }
 
 /***********************************************************
@@ -88,24 +85,6 @@
     float: left;
     margin-top: 10px;
     transform: translateX(-7px);
-}
-
-#ea__mt4path--path {
-    font-size: 13px;
-    border-radius: 3px;
-    border-color: #79bac1;
-    background-color: #f1f3f4;
-    padding: 9px;
-    resize: none;
-}
-
-#ea__mt4path--path:hover {
-    border-color: #2a7886;
-    transition: all 0.3s;
-}
-
-#ea__mt4path--path:focus {
-    outline: none;
 }
 
 /***********************************************************
@@ -158,29 +137,4 @@
     position: absolute;
     bottom: 70px;
     left: 367px;
-}
-
-#ea__continue--btn {
-    padding: 8px 12px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #2a7886;
-    background-color: #79bac1;
-    border: none;
-    border-radius: 3px;
-    transition: all 0.15s;
-}
-
-#ea__continue--btn:active{ 
-    transform: translateY(1px); 
-}
-
-#ea__continue--btn:hover{
-    color: #f1f3f4;
-    background-color: #79bac1;
-    transition: all 0.3s;
-}
-
-#ea__continue--btn:focus{
-    outline: none;
 }

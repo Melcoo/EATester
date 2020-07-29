@@ -1,3 +1,64 @@
 /***********************************************************
 *** GENERAL
 ***********************************************************/
+.params {
+    width: 1140px;
+    margin: 30px 70px 20px;
+    scroll-behavior: smooth;
+}
+
+/***********************************************************
+*** TOP BAR
+***********************************************************/
+.params__top {
+    margin-right: 10px;
+    margin-bottom: 50px;
+}
+
+#params--title {
+    float: left;
+}
+
+.params__btn {
+    float: right;
+    margin-top: 17px;
+    margin-left: 12px;
+}
+
+#params--info {
+    margin-bottom: 20px;
+    color: #79bac1;
+}
+/***********************************************************
+*** PARAMS SETUP
+***********************************************************/
+.params__line {
+    margin-bottom: 10px;
+}
+
+.params__setup {
+    height: 520px;
+    color: #2a7886;
+    font-weight: 600;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.params__pname {
+    float: left;
+    width: 250px;
+    transform: translateY(50%);
+}
+
+.params__pval {
+    margin-left: 10px;
+}
+
+.params__add {
+    padding: 0px;
+    margin-left: 10px;
+    transform: translateY(-9px);
+}
+
+
+
