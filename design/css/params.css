@@ -25,6 +25,10 @@
     margin-left: 12px;
 }
 
+#params__run--btn {
+    margin-right: 24px;
+}
+
 #params--info {
     margin-bottom: 20px;
     color: #79bac1;
@@ -32,12 +36,16 @@
 /***********************************************************
 *** PARAMS SETUP
 ***********************************************************/
-.params__line {
+.params__row {
     margin-bottom: 10px;
 }
 
+.params__row:hover {
+    color: #512b58;
+}
+
 .params__setup {
-    height: 520px;
+    height: 517px;
     color: #2a7886;
     font-weight: 600;
     overflow-y: auto;
@@ -46,19 +54,26 @@
 
 .params__pname {
     float: left;
-    width: 250px;
-    transform: translateY(50%);
+    width: 200px;
+    margin-top: 8px;
 }
 
 .params__pval {
     margin-left: 10px;
+    float: left;
 }
 
 .params__add {
-    padding: 0px;
-    margin-left: 10px;
-    transform: translateY(-9px);
+    float: left;
+    margin-top: 10px;
 }
 
+.params__addbtn {
+    padding: 0px;
+    margin-left: 10px;
+}
 
+.params__addbtn:active {
+    transform: translateX(2px);
+}
 

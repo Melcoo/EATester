@@ -2,8 +2,9 @@
     <div class="params__top noselect clearfix">
 
         <div class="h1" id="params--title">Expert Advisor</div>
-        <button class="params__btn button" id="params__run--btn">Run</button>
+        <button class="params__btn button" id="params__load--btn">Load</button>
         <button class="params__btn button" id="params__save--btn">Save</button>
+        <button class="params__btn button" id="params__run--btn">Run</button>
 
     </div>
 
@@ -11,66 +12,166 @@
 
     <div class="params__setup">
 
-        <div class="params__line clearfix">
+        <div class="params__row clearfix">
             <div class="params__pname" id="params__pname--1">PARAM_1</div>
-
+            <!-- Max 8 values for one parameter -->
             <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
             <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
-            
-            <button class="params__add icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>           
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
             <hr>
         </div>
 
-        <div class="params__line clearfix">
-            <div class="params__pname" id="params__pname-2">PARAM_2</div>
-
-            <textarea class="params__pval" id="params__pvalue--2_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--2_2" cols="8" rows="1">1.20000000</textarea>  
-
-            <button class="params__add icon__btn" id="params__padd--2_1"><ion-icon src="add-circle-outline.svg"></ion-icon></button>        
-            <hr>
-        </div>
-
-        <div class="params__line clearfix">
-            <div class="params__pname" id="params__pname--3">PARAM_3</div>
-
-            <textarea class="params__pval" id="params__pvalue--3_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--3_2" cols="8" rows="1">1.20000000</textarea>
-
-            <button class="params__add icon__btn" id="params__padd--3_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
-            <hr>
-        </div>
-
-        <div class="params__line clearfix">
+        <div class="params__row clearfix">
             <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
 
-            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
-            
-            <button class="params__add icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>           
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
             <hr>
         </div>
-
-        <div class="params__line clearfix">
-            <div class="params__pname" id="params__pname-2">PARAM_2</div>
-
-            <textarea class="params__pval" id="params__pvalue--2_1" cols="8" rows="1">1.10000000</textarea>
-            <textarea class="params__pval" id="params__pvalue--2_2" cols="8" rows="1">1.20000000</textarea>  
-
-            <button class="icon__btn params__add" id="params__padd--2_1"><ion-icon src="add-circle-outline.svg"></ion-icon></button>        
-            <hr>
-        </div>
-
-
         
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+        
+
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+        
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+        
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+        
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+        
+
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+        
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+        
+        <div class="params__row clearfix">
+            <div class="params__pname" id="params__pname--1">PARAM_1</div>
+            <!-- Max 8 values for one parameter -->
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_2" cols="8" rows="1">1.20000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+            <textarea class="params__pval" id="params__pvalue--1_1" cols="8" rows="1">1.10000000</textarea>
+
+            <div class="params__add">
+                <button class="params__addbtn icon__btn" id="params__padd--1_2"><ion-icon src="add-circle-outline.svg"></ion-icon></button>
+            </div>
+            <hr>
+        </div>
+
     </div>
 </div>
 
