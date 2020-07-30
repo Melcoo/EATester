@@ -36,7 +36,7 @@ const topDiv = document.querySelector('.top');
 /////////////////////////////////////////////////////
 ///  Init
 /////////////////////////////////////////////////////
-loadPage(pages[1]);
+loadPage(pages[2]);
 
 
 /////////////////////////////////////////////////////
@@ -99,7 +99,7 @@ let selectEaEl = '';
 
 // Run EA Page code
 function runEaPage() {
-    selectEaEl = document.querySelector('.ea__ealist--select');
+    selectEaEl = document.querySelector('.ea__ealist__select');
 
     // Display old data stored before leaving EA page
     if (mt4Path) { 
@@ -177,7 +177,17 @@ function isContinueBtnActive() {
 ///  Page2: PARAMS
 /////////////////////////////////////////////////////
 function runParamsPage() {
+    document.getElementById('params__run--btn').addEventListener('click', () => {
+        loadPage(pages[2]);
+    });
 
+    document.getElementById('params__save--btn').addEventListener('click', () => {
+        console.log('Saving');
+    });
+
+    document.getElementById('params__load--btn').addEventListener('click', () => {
+        console.log('Loading');
+    });
 }
 
 

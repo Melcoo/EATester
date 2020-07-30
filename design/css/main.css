@@ -133,7 +133,7 @@ hr {
     font-size: 15px;
     background: none;
     border: none;
-    color: #512b58;
+    fill: white;
     cursor: pointer;
     transition: all 0.2s;
     -webkit-app-region: no-drag;
@@ -144,6 +144,7 @@ hr {
 .icon__btn:focus{
     outline: none;
 }
+
 
 /***********************************************************
 *** TOP PART

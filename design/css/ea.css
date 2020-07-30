@@ -98,7 +98,7 @@
     color: #2a7886;
 }
 
-.ea__ealist--select {
+.ea__ealist__select {
     display: block;
     padding: 7px;
     margin-top: 10px;
@@ -113,20 +113,20 @@
     
 }
 
-.ea__ealist--select:hover {
+.ea__ealist__select:hover {
     border-color: #2a7886;
     transition: all 0.3s;    
 }
 
-.ea__ealist--select:focus {
+.ea__ealist__select:focus {
     outline: none;
 }
 
-.ea__ealist--select::-ms-expand {
+.ea__ealist__select::-ms-expand {
 	display: none;
 }
 
-.ea__ealist--select option {
+.ea__ealist__select option {
     background-color: #f1f3f4;
 }
 

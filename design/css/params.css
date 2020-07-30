@@ -34,7 +34,7 @@
     color: #79bac1;
 }
 /***********************************************************
-*** PARAMS SETUP
+*** PARAMS CONTENTS
 ***********************************************************/
 .params__row {
     margin-bottom: 10px;
@@ -44,7 +44,7 @@
     color: #512b58;
 }
 
-.params__setup {
+.params__bottom {
     height: 517px;
     color: #2a7886;
     font-weight: 600;
