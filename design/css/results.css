@@ -38,10 +38,115 @@
 /***********************************************************
 *** RESULTS CONTENTS
 ***********************************************************/
+
+/********** Params columns **********/
 .results__bottom {
     height: 536px;
     color: #2a7886;
     font-weight: 600;
-    overflow-y: auto;
+}
+
+.results__paramlist {
+    float: left;
+    width: 865px;
+    height: 542px;
+    white-space:nowrap; 
+    overflow-y: hidden;
     overflow-x: auto;
+}
+
+.results__column {
+    display: inline-block;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.results__paramdata {
+    float: left;
+}
+
+.results__param__select {
+    padding: 5px;
+    width: 150px;
+    border-radius: 3px;
+    border-color: #79bac1;
+    font-size: 14px;
+    color: #2a7886;
+    background-color: #f1f3f4;
+    font-weight: 600;
+}
+
+.results__param__select:hover {
+    border-color: #2a7886;
+    transition: all 0.3s;
+}
+
+.results__param__select:focus {
+    outline: none;
+}
+
+.results__param__select::-ms-expand {
+	display: none;
+}
+
+.results__param__select option {
+    background-color: #f1f3f4;
+}
+
+.results__param__values {
+    height: 506px;
+    /* sync with results__graphlist in js */
+    overflow-y: hidden;
+}
+
+.results__param__pvalue {
+    width: 60px;
+    height: 64px;
+}
+
+.results__param__pvalue hr {
+    width: 126px;
+    transform: translateY(45px);
+}
+
+.results__param__values p {
+    transform: translate(20px, 25px);
+}
+
+.results__param__filter {
+    float: left;
+    margin-top: 3px;
+    margin-left: 3px;
+}
+
+.results__addrem {
+    display: inline-block;
+    vertical-align:top;
+    margin-top: 3px;
+}
+
+.results__addrem:active {
+    transform: translateX(2px);
+}
+
+/********** Graphs **********/
+.results__graphs {
+    float: right;
+    width: 265px;
+}
+
+/* .resuls__padding {
+    height: 30px;
+} */
+
+.results__graphlist {
+    height: 506px;
+    overflow-y: scroll;
+}
+
+.results__graphlist img {
+    max-height: 60px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }

@@ -54,7 +54,7 @@
 
 .params__pname {
     float: left;
-    width: 200px;
+    width: 180px;
     margin-top: 8px;
 }
 
@@ -68,12 +68,12 @@
     margin-top: 10px;
 }
 
-.params__addbtn {
+.params__addrembtn {
     padding: 0px;
     margin-left: 10px;
 }
 
-.params__addbtn:active {
+.params__addrembtn:active {
     transform: translateX(2px);
 }
 
