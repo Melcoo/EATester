@@ -36,7 +36,7 @@ const topDiv = document.querySelector('.top');
 /////////////////////////////////////////////////////
 ///  Init
 /////////////////////////////////////////////////////
-loadPage(pages[2]);
+loadPage(pages[0]);
 
 
 /////////////////////////////////////////////////////
@@ -99,12 +99,12 @@ let selectEaEl = '';
 
 // Run EA Page code
 function runEaPage() {
-    selectEaEl = document.querySelector('.ea__ealist__select');
+    selectEaEl = document.getElementById('ea__ealist--select');
 
     // Display old data stored before leaving EA page
     if (mt4Path) { 
         document.getElementById('ea__mt4path--path').value = mt4Path + 'terminal.exe';
-        listEAOptions();
+        enableEA();
     };
 
     //// Get MT4 folder path
@@ -117,11 +117,14 @@ function runEaPage() {
             mt4Path = terminalPath.replace('terminal.exe', '');
     
             // Display EAs inside \MQL4\Experts\
-            listEAOptions();
+            enableEA();
         } else {
             document.getElementById('ea__mt4path--path').value = 'Path to "terminal.exe" is not correct!';
             mt4Path = '';
             selectEaEl.textContent = '';
+            document.querySelectorAll('input[name="ea__to_disable"]').forEach(el => {
+                el.setAttribute("disabled");
+            });
             continueBtnToggle(false);   
         }
     });
@@ -138,7 +141,7 @@ function runEaPage() {
 }
 
 //// Display EA options
-function listEAOptions() {
+function enableEA() {
     const files = fs.readdirSync(mt4Path + '\\MQL4\\Experts\\');
 
     selectEaEl.textContent = '';
@@ -152,8 +155,14 @@ function listEAOptions() {
     });
 
     eaToRun = selectEaEl.options[0].text;
+
+    document.querySelectorAll('[name*="ea__to_disable"]').forEach(el => {
+        el.removeAttribute("disabled");
+    });
+
     continueBtnToggle(true);
 }
+
 
 //// Change opacity of "Continue" button
 function continueBtnToggle(on) {

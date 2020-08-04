@@ -20,13 +20,42 @@
     outline: none;
 }
 
-
 .ea__content {
     height: 730px;
     width: 600px;
 }
 
+.ea__select {
+    padding: 7px;
+    margin-top: 10px;
+    border-radius: 3px;
+    border-color: #79bac1;
+    font-size: 12px;
+    font-weight: 400;
+    color: #2a7886;
+    background-color: #f1f3f4;    
+}
 
+.ea__select:hover {
+    border-color: #2a7886;
+    transition: all 0.3s;  
+}
+
+.ea__select:focus {
+    outline: none;
+}
+
+.ea__select:checked {
+    font-weight: 600;
+}
+
+.ea__select::-ms-expand {
+	display: none;
+}
+
+.ea__select option {
+    background-color: #f1f3f4;
+}
 /***********************************************************
 *** TITLE
 ***********************************************************/
@@ -43,7 +72,7 @@
 ***********************************************************/
 .ea__mt4path {
     position: absolute;
-    top: 330px;
+    top: 280px;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 15px;
@@ -92,41 +121,102 @@
 ***********************************************************/
 .ea__ealist {
     position: absolute;
-    top: 410px;
+    top: 328px;
     left: 365px;
     font-size: 15px;
     color: #2a7886;
 }
 
-.ea__ealist__select {
+#ea__ealist--select {
     display: block;
-    padding: 7px;
-    margin-top: 10px;
     transform: translateX(-7px);
-    width: 290px;
-    border-radius: 3px;
-    border-color: #79bac1;
-    font-size: 16px;
-    color: #2a7886;
-    background-color: #f1f3f4;
+    width: 340px;
     font-weight: 600;
 }
 
-.ea__ealist__select:hover {
-    border-color: #2a7886;
-    transition: all 0.3s;    
+/***********************************************************
+*** EA TESTING SETTINGS
+***********************************************************/
+.ea__prop {
+    position: absolute;
+    top: 450px;
+    left: 365px;
+    color: #2a7886;
 }
 
-.ea__ealist__select:focus {
+.ea__prop textarea {
+    margin-top: 10px;
+    padding: 7px;
+    text-transform: uppercase;
+}
+
+.ea__prop select {
+    transform: translateX(-7px);
+}
+
+.ea__easymbol {
+    float: left;
+}
+
+#ea__easymbol--text {
+    padding-top: 8px;
+    transform: translateX(-7px);
+    color: #2a7886;
+    font-family: Arial;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.ea__eaperiod {
+    float: left;
+    margin-left: 10px;
+}
+
+.ea__easpread {
+    float: left;
+    margin-left: 10px;
+}
+
+.ea__eadate {
+    position: absolute;
+    top: 530px;
+    left: 365px;
+    color: #2a7886;
+}
+
+.ea__eadate input {
+    transform: translateX(-7px);
+    width: 150px;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.ea__eadate__box {
+    height: 60px;
+    float: left;
+}
+
+.ea__eadate input {
+    border: solid #79bac1;
+    border-width: 1px;
+    border-radius: 3px;
+    background: #f1f3f4;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.ea__eadate input:active {
     outline: none;
+    border: solid #2a7886;
+    border-width: 1px;
+    transition: all 0.3s; 
 }
 
-.ea__ealist__select::-ms-expand {
-	display: none;
-}
-
-.ea__ealist__select option {
-    background-color: #f1f3f4;
+.ea__eadate input:hover {
+    outline: none;
+    border: solid #2a7886;
+    border-width: 1px;
+    transition: all 0.3s; 
 }
 
 /***********************************************************
@@ -134,6 +224,6 @@
 ***********************************************************/
 .ea__continue {
     position: absolute;
-    bottom: 70px;
-    left: 367px;
+    bottom: 45px;
+    left: 358px;
 }

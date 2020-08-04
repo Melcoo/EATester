@@ -22,13 +22,57 @@
         
         <div class="ea__ealist">
             <p>Please choose Expert Advisor</p>
-            <select class="ea__ealist__select">
+            <select disabled class="ea__select" name="ea__to_disable" id="ea__ealist--select">
                 <!-- <option>Expert Advisor</option> -->
             </select>
         </div>
+        
+        <div class="ea__prop clearfix">
+            <div class="ea__easymbol">
+                <p>Symbol</p>
+                <textarea disabled name="ea__to_disable" id="ea__easymbol--text" cols="7" rows="1" wrap="hard" placeholder="eurusd" spellcheck="false"></textarea>
+            </div>
+    
+            <div class="ea__eaperiod">
+                <p>Period</p>
+                <select disabled name="ea__to_disable" class="ea__select" id="ea__eaperiod--select">
+                    <option>M1</option>
+                    <option>M5</option>
+                    <option>M15</option>
+                    <option>M30</option>
+                    <option>H1</option>
+                    <option>H4</option>
+                    <option>Daily</option>
+                </select>
+            </div>
+    
+            <div class="ea__easpread">
+                <p>Spread</p>
+                <select disabled name="ea__to_disable" class="ea__select" id="ea__easpread--select">
+                    <option>Current</option>
+                    <option>2</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>30</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="ea__eadate clearfix">
+            <div class="ea__eadate__box">
+                <p>From</p>
+                <input disabled type="date" name="ea__to_disable" id="ea__eafrom--date" value="2020-01-01">
+            </div>
+            <div class="ea__eadate__box">
+                <p>To</p>
+                <input disabled type="date" name="ea__to_disable" id="ea__eato--date" value="2020-01-01">
+            </div>
+        </div>
 
         <div class="ea__continue nonactive">
-            <button class="button" id="ea__continue--btn">Continue</button>
+            <button disabled class="button" name="ea__to_disable" id="ea__continue--btn">Continue</button>
         </div>
     </div>
 </div>

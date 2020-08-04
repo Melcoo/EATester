@@ -163,6 +163,16 @@ hr {
     border-radius: 3px;
 }
 
+
+::-webkit-datetime-edit {
+    padding: 7px;
+    border-radius: 3px;
+}
+::-webkit-datetime-edit-text { color: #2a7886; }
+::-webkit-datetime-edit-month-field { color: #2a7886  }
+::-webkit-datetime-edit-day-field { color: #2a7886  }
+::-webkit-datetime-edit-year-field { color: #2a7886  }
+
 .top {
     position: relative;
 }
