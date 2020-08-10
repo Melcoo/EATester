@@ -2,34 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=900, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:300,400,600,700" rel="stylesheet" type="text/css">
+    <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <link type="text/css" rel="stylesheet" href="css/ea.css">
+    <link type="text/css" rel="stylesheet" href="css/params.css">
+    <link type="text/css" rel="stylesheet" href="css/results.css">
     <title>EA Tester</title>
 </head>
-
 <body>
-    <h1>EA Tester</h1> 
 
-    <div>
-        <form>
-            <br>
-            <button type="button" class="py-tn" id="py-templ-btn">Templ</button>
-            <button type="button" class="py-tn" id="py-eatester-btn">EATester</button>
-            <button type="button" class="py-tn" id="py-report-btn">Reports</button>
-            <div>
-                <button type="button" id="py-clear-btn">Clear</button>
+    <div class="titlebar noselect">
+        <div class="bar clearfix">
+            <div class="nav">
+                <button class="nav__btn" id="nav__btn--ea">EA</button>
+                <button class="nav__btn" id="nav__btn--param">PARAM</button>
+                <button class="nav__btn" id="nav__btn--res">RESULT</button>
             </div>
-            
-        </form>
+
+            <div class="window">
+                <button class="icon__btn" id="window__btn--minimize"><ion-icon src="css\remove-outline.svg"></ion-icon></button>
+                <button class="icon__btn" id="window__btn--close"><ion-icon src="css\close-outline.svg"></ion-icon></button>
+            </div>    
+        </div>
     </div>
 
-    <div class=div-text></div>
 
-    <div>
-        <br>
-        <button type="button" id="quit-btn">Quit!</button>
+
+    <div class="top">
+        <!-- One of the 3 main pages are loaded here -->
     </div>
 
-    <script src="app.js"></script>
+
+    <div class="bottom clearfix">
+        <div class="trademark">
+            <p>	&trade; EA Tester</p>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
 </body>
 </html>

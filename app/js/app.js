@@ -1,6 +1,6 @@
 const { ipcRenderer, shell } = require('electron');
+const path = require('path');
 const fs = require('fs');
-const path = require("path");
 
 
 /** Global state of the app
@@ -271,22 +271,52 @@ function runResultsPage() {
 }
 
 
-//////////////////// Sample code for sync scrolling
-// var ignoreScrollEvents = false
-// function syncScroll(element1, element2) {
-//   element1.scroll(function (e) {
-//     var ignore = ignoreScrollEvents
-//     ignoreScrollEvents = false
-//     if (ignore) return
+/////////////////////////////////////////////////////
+///  Python handler
+/////////////////////////////////////////////////////
+async function spawnPyApp(app, args=[]) {
+    const { spawn } = require('child_process');
+    let pyOutput = '';
 
-//     ignoreScrollEvents = true
-//     element2.scrollTop(element1.scrollTop())
-//   })
-// }
-// syncScroll($("#div1"), $("#div2"))
-// syncScroll($("#div2"), $("#div1"))
+    // For built app
+    const pyApp = await spawn(`"` + path.join(__dirname, '..\\..\\..\\..') + `\\app\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe"`, args, {shell:true});
+    // For running app
+    // const pyApp = await spawn(`"` + __dirname + `\\pyapp\\EATesterPy\\Tester\\dist\\${app}.exe"`, args, {shell:true});
+ 
+    pyApp.stdout.on('data', (data) => {
+        pyOutput += `<p>${data}</p>`;
+        document.querySelector('.div-text').innerHTML = pyOutput;
+    });
+    
+    pyApp.stderr.on('data', (data) => {
+        console.error(`Python: stderr: ${data}`);
+    });
+}
 
-{/* <div id="div1" style="float:left;overflow:auto;height:100px;width:200px;">
+
+/////////////////////////////////////////////////////
+///  Test code
+/////////////////////////////////////////////////////
+
+//// Sample code for sync scrolling
+
+/*
+var ignoreScrollEvents = false
+function syncScroll(element1, element2) {
+  element1.scroll(function (e) {
+    var ignore = ignoreScrollEvents
+    ignoreScrollEvents = false
+    if (ignore) return
+
+    ignoreScrollEvents = true
+    element2.scrollTop(element1.scrollTop())
+  })
+}
+syncScroll($("#div1"), $("#div2"))
+syncScroll($("#div2"), $("#div1"))
+*/
+
+/* <div id="div1" style="float:left;overflow:auto;height:100px;width:200px;">
   <p>lulz</p>
   <p>lulz</p>
   <p>lulz</p>
@@ -298,8 +328,32 @@ function runResultsPage() {
   <p>lulz</p>
   <p>lulz</p>
   <p>lulz</p>
-</div> */}
+</div> */
 
 
 ////// Sample code for image link opening outside Electron
-// https://stackoverflow.com/questions/50519346/external-image-links-in-electron-do-not-open-in-an-external-browser
+/* 
+https://stackoverflow.com/questions/50519346/external-image-links-in-electron-do-not-open-in-an-external-browser
+*/
+
+//// Playing with PythonShell
+let { PythonShell } = require('python-shell');
+
+PythonShell.defaultOptions = {
+    mode: 'text',
+    pythonPath: 'C:\\Python3\\python.exe',
+    scriptPath: `${__dirname}`
+};
+
+async function testPythonShell() {
+    let pyOutput = '';
+    let pyData;
+    let PyShell = await new PythonShell('pyapp\\dist\\pyapp.exe');
+    PyShell.on('message', pyData => {
+        let date = new Date();
+        pyOutput += `<p>${pyData}, JS time: ${date.getMinutes()}:${date.getSeconds()}</p>`;
+            
+        document.querySelector('.div-text').innerHTML = pyOutput;
+    });
+}
+

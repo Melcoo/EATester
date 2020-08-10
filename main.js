@@ -17,7 +17,7 @@ app.on('ready', () =>  {
     });
 
     mainWindow.setMenuBarVisibility(false);
-    mainWindow.loadURL(`file://${__dirname}/design/main.html`);
+    mainWindow.loadURL(`file://${__dirname}/app/main.html`);
     // TODO: Remove for production
     mainWindow.webContents.openDevTools();
     // Check for updates 10 seconds after launch
