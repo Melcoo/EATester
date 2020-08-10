@@ -1,13 +1,27 @@
 const { ipcRenderer, shell } = require('electron');
 const fs = require('fs');
+const path = require("path");
 
 
-// DOM elements
+/** Global state of the app
+ *  - Ea object
+ *  - Params object
+ *  - Results obejct
+ */
+const state = {};
 
 
 // Global variables
 let mt4Path = '';
-let eaToRun = '';
+let stSettings = {
+    eaName: '',
+    symbol: '',
+    period: '',
+    spread: '',
+    fromDate: '',
+    toDate: ''
+}
+
 
 const pages = [
     {
@@ -36,7 +50,7 @@ const topDiv = document.querySelector('.top');
 /////////////////////////////////////////////////////
 ///  Init
 /////////////////////////////////////////////////////
-loadPage(pages[0]);
+loadPage(pages[1]);
 
 
 /////////////////////////////////////////////////////
@@ -81,7 +95,6 @@ document.getElementById('nav__btn--res').addEventListener('click', () => {
     loadPage(pages[2]);
 });
     
-
 //// Change style for Menu bar buttons
 function menuBtnActivate(page) {
     const btn = document.getElementById(page.btnEl);
@@ -93,19 +106,16 @@ function menuBtnActivate(page) {
 }
 
 /////////////////////////////////////////////////////
-///  Page1: EA
+///  Page 0: EA
 /////////////////////////////////////////////////////
 let selectEaEl = '';
 
-// Run EA Page code
+//// Run EA Page code
 function runEaPage() {
     selectEaEl = document.getElementById('ea__ealist--select');
 
     // Display old data stored before leaving EA page
-    if (mt4Path) { 
-        document.getElementById('ea__mt4path--path').value = mt4Path + 'terminal.exe';
-        enableEA();
-    };
+    restoreOldData_EA();
 
     //// Get MT4 folder path
     document.getElementById('ea__mt4path--file').addEventListener('change', () => {
@@ -116,28 +126,22 @@ function runEaPage() {
             document.getElementById('ea__mt4path--path').value = terminalPath;
             mt4Path = terminalPath.replace('terminal.exe', '');
     
-            // Display EAs inside \MQL4\Experts\
             enableEA();
         } else {
-            document.getElementById('ea__mt4path--path').value = 'Path to "terminal.exe" is not correct!';
             mt4Path = '';
             selectEaEl.textContent = '';
+
+            document.getElementById('ea__mt4path--path').value = 'Path to "terminal.exe" is not correct!';
             document.querySelectorAll('input[name="ea__to_disable"]').forEach(el => {
                 el.setAttribute("disabled");
             });
+
             continueBtnToggle(false);   
         }
     });
 
-    //// Get selected EA option
-    selectEaEl.onchange = (() => {
-        eaToRun = selectEaEl.options[selectEaEl.selectedIndex].text;
-    });
-
     //// Handle "Continue" button - move on to Params page
-    document.getElementById('ea__continue--btn').addEventListener('click', () => {
-        if (isContinueBtnActive()) { loadPage(pages[1]) };
-    }); 
+    document.getElementById('ea__continue--btn').addEventListener('click', continueBtnHandle);
 }
 
 //// Display EA options
@@ -154,7 +158,7 @@ function enableEA() {
         }
     });
 
-    eaToRun = selectEaEl.options[0].text;
+    stSettings.eaName = selectEaEl.options[0].text;
 
     document.querySelectorAll('[name*="ea__to_disable"]').forEach(el => {
         el.removeAttribute("disabled");
@@ -163,6 +167,35 @@ function enableEA() {
     continueBtnToggle(true);
 }
 
+//// Restore old data before leaving the page
+function restoreOldData_EA() {
+    if (mt4Path) { 
+        document.getElementById('ea__mt4path--path').value = mt4Path + 'terminal.exe';
+        document.getElementById("ea__easymbol--text").value = stSettings.symbol;
+        document.getElementById("ea__eaperiod--select").value = stSettings.period;
+        document.getElementById("ea__easpread--select").value = stSettings.spread;
+        document.getElementById("ea__eafrom--date").value = stSettings.fromDate.replace(/\./g, '-');
+        document.getElementById("ea__eato--date").value = stSettings.toDate.replace(/\./g, '-');
+
+        enableEA();
+    };
+}
+
+//// handle Continue button
+function continueBtnHandle() {
+    if (isContinueBtnActive()) {
+        eaSymbol = document.getElementById("ea__easymbol--text").value;
+
+        (eaSymbol) ? stSettings.symbol = eaSymbol : stSettings.symbol = 'eurusd';
+        stSettings.eaName = selectEaEl.options[selectEaEl.selectedIndex].text;
+        stSettings.period = document.getElementById("ea__eaperiod--select").value;
+        stSettings.spread = document.getElementById("ea__easpread--select").value;
+        stSettings.fromDate = document.getElementById("ea__eafrom--date").value.replace(/-/g, '.');
+        stSettings.toDate = document.getElementById("ea__eato--date").value.replace(/-/g, '.'); 
+
+        loadPage(pages[1]);
+    };
+}
 
 //// Change opacity of "Continue" button
 function continueBtnToggle(on) {
@@ -176,6 +209,7 @@ function continueBtnToggle(on) {
     }
 }
 
+//// Check if Continue Button is active
 function isContinueBtnActive() {
     const btn = document.querySelector('.ea__continue');
     return !(btn.classList.contains('nonactive'));
@@ -183,8 +217,26 @@ function isContinueBtnActive() {
 
 
 /////////////////////////////////////////////////////
-///  Page2: PARAMS
+///  Page 1: PARAMS
 /////////////////////////////////////////////////////
+const renderParam = (param) => {
+    const markup = `
+    <div class="params__row clearfix">
+        <div class="params__pname" id="params__pname--${param.no}">${param.name}</div>
+        
+        <textarea class="params__pval" id="params__pvalue--${param.no}_${param.value.no}" cols="11" rows="1">${param.value.val}</textarea>
+
+        <div class="params__add">
+            <button class="params__addrembtn icon__btn" id="params__padd--${param.no}_${param.value.no}"><ion-icon src="css\\remove-circle-outline.svg"></ion-icon></button>
+            <button class="params__addrembtn icon__btn" id="params__padd--${param.no}_${param.value.no}"><ion-icon src="css\\add-circle-outline.svg"></ion-icon></button>
+        </div>
+        <hr>
+    </div>
+    `;
+
+    document.querySelector('.params__bottom').insertAdjacentHTML('beforeend', markup);
+}
+
 function runParamsPage() {
     document.getElementById('params__run--btn').addEventListener('click', () => {
         loadPage(pages[2]);
@@ -197,11 +249,22 @@ function runParamsPage() {
     document.getElementById('params__load--btn').addEventListener('click', () => {
         console.log('Loading');
     });
+
+    const paramDefaultSettings = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\app\\pyapp\\EATesterPy\\Templ\\ea_settings_templ.json'))); 
+    Object.keys(paramDefaultSettings).forEach(key => {
+        const param = new Object();
+        param.no = 1;
+        param.name = key;
+        param.value = new Object();
+        param.value.no = 1;
+        param.value.val = paramDefaultSettings[key];
+        renderParam(param); 
+    });
 }
 
 
 /////////////////////////////////////////////////////
-///  Page2: RESULTS
+///  Page 2: RESULTS
 /////////////////////////////////////////////////////
 function runResultsPage() {
 
