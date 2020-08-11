@@ -4,6 +4,8 @@ require('electron-reload')(__dirname);
 const updater = require('./updater.js');
 
 
+
+
 let mainWindow;
 app.on('ready', () =>  {
     mainWindow = new BrowserWindow({
