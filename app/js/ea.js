@@ -8,8 +8,8 @@ const { getElements } = require('./base');
 class Ea {
 
 
-    constructor(state, pages) {
-        this.state = state;
+    constructor(eaCfg, pages) {
+        this.eaCfg = eaCfg;
         this.pages = pages;
 
         // Get DOM elements
@@ -28,16 +28,16 @@ class Ea {
 
     //// Restore old data before leaving the page
     restoreOldData() {
-        if (this.state.mt4path) { 
-            this.elements.mt4path.value = this.state.mt4path + 'terminal.exe';
-            this.elements.eaSymbol.value = this.state.stSettings.symbol;
-            this.elements.eaPeriod.value = this.state.stSettings.period;
-            this.elements.eaSpread.value = this.state.stSettings.spread;
-            this.elements.eaDateFrom.value = this.state.stSettings.fromDate.replace(/\./g, '-');
-            this.elements.eaDateTo.value = this.state.stSettings.toDate.replace(/\./g, '-');
+        if (this.eaCfg.mt4path) { 
+            this.elements.mt4path.value = this.eaCfg.mt4path + 'terminal.exe';
+            this.elements.eaSymbol.value = this.eaCfg.symbol;
+            this.elements.eaPeriod.value = this.eaCfg.period;
+            this.elements.eaSpread.value = this.eaCfg.spread;
+            this.elements.eaDateFrom.value = this.eaCfg.fromDate.replace(/\./g, '-');
+            this.elements.eaDateTo.value = this.eaCfg.toDate.replace(/\./g, '-');
     
             this.enableEa();
-            this.elements.eaList.value = this.state.stSettings.eaName;
+            this.elements.eaList.value = this.eaCfg.eaName;
         };
     }
 
@@ -47,12 +47,12 @@ class Ea {
         // Update text area with area
         if(terminalPath.substr(-12) == 'terminal.exe') {
             this.elements.mt4path.value = terminalPath;
-            this.state.mt4path = terminalPath.replace('terminal.exe', '');
+            this.eaCfg.mt4path = terminalPath.replace('terminal.exe', '');
     
             this.enableEa();
-            this.state.stSettings.eaName = this.selectEa.options[0].text;
+            this.eaCfg.eaName = this.selectEa.options[0].text;
         } else {
-            this.state.mt4path = '';
+            this.eaCfg.mt4path = '';
             this.selectEa.textContent = '';
 
             this.elements.mt4path.value = 'Path to "terminal.exe" is not correct!';
@@ -66,7 +66,7 @@ class Ea {
 
     //// Display EA options
     enableEa() {
-        const files = fs.readdirSync(this.state.mt4path + '\\MQL4\\Experts\\');
+        const files = fs.readdirSync(this.eaCfg.mt4path + '\\MQL4\\Experts\\');
 
         this.selectEa.textContent = '';
         files.forEach(el => {
@@ -91,12 +91,12 @@ class Ea {
             const { loadPage } = require('./app');
             const eaSymbol = this.elements.eaSymbol.value;
 
-            (eaSymbol) ? this.state.stSettings.symbol = eaSymbol : this.state.stSettings.symbol = 'eurusd';
-            this.state.stSettings.eaName = this.selectEa.options[this.selectEa.selectedIndex].text;
-            this.state.stSettings.period = this.elements.eaPeriod.value;
-            this.state.stSettings.spread = this.elements.eaSpread.value;
-            this.state.stSettings.fromDate = this.elements.eaDateFrom.value.replace(/-/g, '.');
-            this.state.stSettings.toDate = this.elements.eaDateTo.value.replace(/-/g, '.'); 
+            (eaSymbol) ? this.eaCfg.symbol = eaSymbol : this.eaCfg.symbol = 'eurusd';
+            this.eaCfg.eaName = this.selectEa.options[this.selectEa.selectedIndex].text;
+            this.eaCfg.period = this.elements.eaPeriod.value;
+            this.eaCfg.spread = this.elements.eaSpread.value;
+            this.eaCfg.fromDate = this.elements.eaDateFrom.value.replace(/-/g, '.');
+            this.eaCfg.toDate = this.elements.eaDateTo.value.replace(/-/g, '.'); 
 
             loadPage(1);
         };

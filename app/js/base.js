@@ -25,6 +25,7 @@ exports.getElements = () => {
             disable: document.querySelectorAll('input[name="ea__to_disable"]')    
         },
         params: {
+            title: document.getElementById('params--title'),
             params: document.querySelector('.params__bottom'),
             runBtn: document.getElementById('params__run--btn'),
             saveBtn: document.getElementById('params__save--btn'),

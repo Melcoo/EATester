@@ -11,10 +11,6 @@ let elements = '';
 /////////////////////////////////////////////////////
 ///  Menu Bar
 /////////////////////////////////////////////////////
-/**
-  * @param {String} url - address for the HTML to fetch
-  * @return {String} the resulting HTML string fragment
-  */
 const fetchHtmlAsText = async(url) => {
     const response = await fetch(url);
     return await response.text();
@@ -70,7 +66,7 @@ let selectEaEl = '';
 
 //// Run EA Page code
 const controlEa = () => {
-    const ea = new Ea(state, pages);
+    const ea = new Ea(state.eaCfg, pages);
 
     // Display old data stored before leaving EA page
     ea.restoreOldData();
@@ -81,7 +77,7 @@ const controlEa = () => {
 ///  Page 1: PARAMS
 /////////////////////////////////////////////////////
 const controlParams = () => {
-    const params = new Params();
+    const params = new Params(state.eaCfg.eaName, state.paramsCfg);
 
     // Display param names and values based on .json template 
     params.renderParams();
@@ -132,14 +128,20 @@ const spawnPyApp = async(app, args=[]) => {
  */
 let state = {
     activePage: '',
-    mt4path: '',
-    stSettings: {
+    eaCfg: {
+        mt4path: '',
         eaName: '',
         symbol: '',
         period: '',
         spread: '',
         fromDate: '',
         toDate: ''
+    },
+    paramsCfg: {
+
+    },
+    resultsCfg: {
+
     }
 }
 
@@ -165,6 +167,7 @@ const pages = [
 ];
 
 const initApp = () => {
+    // Will be set after loading prvious config
     state.activePage = 1;
 
     elements = getElements().main;
