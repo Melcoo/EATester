@@ -27,25 +27,11 @@ const loadPage = async(pageNo) => {
 exports.loadPage = loadPage;
 
 const btnHandler = () => {
-    elements.closeBtn.addEventListener('click', () => {
-        let evResp = ipcRenderer.send('ev:close');
-    });
-
-    elements.minBtn.addEventListener('click', () => {
-        let evResp = ipcRenderer.send('ev:minimize');
-    });
-
-    elements.eaBtn.addEventListener('click', () => {
-        loadPage(0);
-    });
-
-    elements.paramBtn.addEventListener('click', () => {
-        loadPage(1);
-    });
-
-    elements.resultBtn.addEventListener('click', () => {
-        loadPage(2);
-    });
+    elements.closeBtn.addEventListener('click', () => { let evResp = ipcRenderer.send('ev:close') });
+    elements.minBtn.addEventListener('click', () => { let evResp = ipcRenderer.send('ev:minimize') });
+    elements.eaBtn.addEventListener('click', () => { loadPage(0) });
+    elements.paramBtn.addEventListener('click', () => { loadPage(1) });
+    elements.resultBtn.addEventListener('click', () => { loadPage(2) });
 }
 
     
@@ -137,12 +123,8 @@ let state = {
         fromDate: '',
         toDate: ''
     },
-    paramsCfg: {
-
-    },
-    resultsCfg: {
-
-    }
+    paramsCfg: {},
+    resultsCfg: {}
 }
 
 const pages = [

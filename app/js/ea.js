@@ -6,8 +6,6 @@ const fs = require('fs');
 const { getElements } = require('./base');
 
 class Ea {
-
-
     constructor(eaCfg, pages) {
         this.eaCfg = eaCfg;
         this.pages = pages;
@@ -38,6 +36,7 @@ class Ea {
     
             this.enableEa();
             this.elements.eaList.value = this.eaCfg.eaName;
+            this.eaCfg.eaName = 'sdfsdfsdfs';
         };
     }
 
