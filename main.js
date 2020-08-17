@@ -4,8 +4,9 @@ require('electron-reload')(__dirname);
 const updater = require('./updater.js');
 
 
-
-
+/////////////////////////////////////////////////////
+///  Main Window
+/////////////////////////////////////////////////////
 let mainWindow;
 app.on('ready', () =>  {
     mainWindow = new BrowserWindow({
@@ -36,6 +37,10 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
   })
 
+
+/////////////////////////////////////////////////////
+///  IPC handlers
+/////////////////////////////////////////////////////
 
 ipcMain.on('ev_app_quit', (event, content) => {
     app.quit();

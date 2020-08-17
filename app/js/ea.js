@@ -4,7 +4,8 @@
 const path = require('path');
 const fs = require('fs');
 const { getElements } = require('./base');
-
+const { spawnPyApp } = require('./py');
+ 
 class Ea {
     constructor(eaCfg, pages) {
         this.eaCfg = eaCfg;
@@ -59,7 +60,7 @@ class Ea {
                 el.setAttribute("disabled", "");
             });
 
-            this.continueBtnToggle(false);   
+            continueBtnToggle(false);   
         }
     }
 
@@ -81,13 +82,13 @@ class Ea {
             el.removeAttribute("disabled");
         });
 
-        this.continueBtnToggle(true);
+        continueBtnToggle(true);
     }
 
     //// Handle Continue button
     handleContinueBtn() {
-        if (this.isContinueBtnActive()) {
-            const { loadPage } = require('./app');
+        if (isContinueBtnActive()) {
+            const { loadPage, runPy } = require('./app');
             const eaSymbol = this.elements.eaSymbol.value;
 
             (eaSymbol) ? this.eaCfg.symbol = eaSymbol : this.eaCfg.symbol = 'eurusd';
@@ -97,26 +98,42 @@ class Ea {
             this.eaCfg.fromDate = this.elements.eaDateFrom.value.replace(/-/g, '.');
             this.eaCfg.toDate = this.elements.eaDateTo.value.replace(/-/g, '.'); 
 
-            loadPage(1);
+            this.elements.continueBtn.textContent = 'Getting default settings...';
+            continueBtnToggle(false);
+            spawnPyApp('templ', continueBtnOnStdOut, continueBtnOnClose.bind(this), this.eaCfg.mt4path, this.eaCfg.eaName);
         };
     }
 
-    //// Change opacity of "Continue" button
-    continueBtnToggle(on) {
-        const btn = document.querySelector('.ea__continue');
-        if(on === false) {
-            btn.classList.add('nonactive');
-        } else if(on === true) {
-            if (btn.classList.contains('nonactive')) {
-                btn.classList.remove('nonactive');
-            }
+}
+
+//// Change opacity of "Continue" button
+const continueBtnToggle = (on) => {
+    const btn = document.querySelector('.ea__continue');
+    if(on === false) {
+        btn.classList.add('nonactive');
+    } else if(on === true) {
+        if (btn.classList.contains('nonactive')) {
+            btn.classList.remove('nonactive');
         }
     }
+}
 
-    //// Check if Continue Button is active
-    isContinueBtnActive() {
-        const btn = document.querySelector('.ea__continue');
-        return !(btn.classList.contains('nonactive'));
+//// Check if Continue Button is active
+const isContinueBtnActive = () => {
+    const btn = document.querySelector('.ea__continue');
+    return !(btn.classList.contains('nonactive'));
+}
+
+const continueBtnOnStdOut = (data) => {
+    console.log(data.toString());
+}
+
+const continueBtnOnClose = (data) => {
+    const { getElements } = require('./base');
+
+    if (data == 0) {
+        getElements().ea.continueBtn.textContent = 'Get default settings';
+        continueBtnToggle(true);
     }
 }
 
