@@ -1,7 +1,8 @@
-const { ipcRenderer, shell } = require('electron');
+const { ipcRenderer, shell, remote } = require('electron');
+const path = require('path');
+const fs = require('fs');
 const Ea = require('./ea');
 const Params = require('./params');
-const { spawnPyApp } = require('./py');
 const { getElements } = require('./base');
 
 let elements = '';
@@ -15,6 +16,7 @@ const fetchHtmlAsText = async(url) => {
     return await response.text();
 }
 
+//// Load one of the 3 pages [0, 1, 2]
 const loadPage = async(pageNo) => {
     elements.top.innerHTML = await fetchHtmlAsText(pages[pageNo].url);
     // Activate menu bar button
@@ -42,7 +44,47 @@ const menuBtnActivate = (page) => {
     btn.classList.add('menubtnactive');
 }
 
+//// Save state variable into json.cfg
+const saveConfig = () => {
+    const dialogOptions = {
+        title: 'Save configuration',
+        filters: [{
+            name: 'EA Tester config file', 
+            extensions: ['eat']
+        }]
+    }; 
+
+    const cfgPath = remote.dialog.showSaveDialogSync(dialogOptions);
+    if (cfgPath) {
+        fs.writeFile(path.resolve(cfgPath), JSON.stringify(state), (err,data) => {
+            if (err) {
+              return console.log(err);
+            }
+        });
+    }
+}
+
+//// Load state variable from json.cfg
+const loadConfig = () => {   
+    const dialogOptions = {
+        title: 'Load configuration',
+        filters: [{
+            name: 'EA Tester config file', 
+            extensions: ['eat']
+        }],
+        properties: ['openFile']
+    };
+    
+    const cfgPath = remote.dialog.showOpenDialogSync(dialogOptions);
+    if (cfgPath) {
+        state = JSON.parse(fs.readFileSync(cfgPath[0]));
+        loadPage(state.activePage);
+    }    
+}
+
 exports.loadPage = loadPage;
+exports.saveConfig = saveConfig;
+exports.loadConfig = loadConfig;
 
 /////////////////////////////////////////////////////
 ///  Page 0: EA

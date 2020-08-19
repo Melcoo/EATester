@@ -100,7 +100,10 @@ class Ea {
 
             this.elements.continueBtn.textContent = 'Getting default settings...';
             continueBtnToggle(false);
-            spawnPyApp('templ', continueBtnOnStdOut, continueBtnOnClose.bind(this), this.eaCfg.mt4path, this.eaCfg.eaName);
+
+            // TODO: replace loadPage(1) with spawnPyApp()
+            loadPage(1);
+            // spawnPyApp('templ', continueBtnOnStdOut, continueBtnOnClose.bind(this), this.eaCfg.mt4path, this.eaCfg.eaName);
         };
     }
 
@@ -129,11 +132,13 @@ const continueBtnOnStdOut = (data) => {
 }
 
 const continueBtnOnClose = (data) => {
+    const { loadPage } = require('./app');
     const { getElements } = require('./base');
 
     if (data == 0) {
         getElements().ea.continueBtn.textContent = 'Get default settings';
         continueBtnToggle(true);
+        loadPage(1);
     }
 }
 

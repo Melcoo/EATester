@@ -61,7 +61,7 @@ class Params {
     }
 
     btnHandler() {
-        const { loadPage } = require('./app');
+        const { loadPage, saveConfig, loadConfig } = require('./app');
 
         // this.elements.addRemBtns.addEventListener('click', event => addRemoveVal.bind(this));
         document.querySelectorAll('.params__addrembtn').forEach(el => {
@@ -69,12 +69,8 @@ class Params {
         })
         
         this.elements.runBtn.addEventListener('click', () => loadPage(2));
-        this.elements.saveBtn.addEventListener('click', () => {
-            console.log('Saving');
-        });
-        this.elements.loadBtn.addEventListener('click', () => {
-            console.log('Loading');
-        });
+        this.elements.saveBtn.addEventListener('click', () => saveConfig());
+        this.elements.loadBtn.addEventListener('click', () => loadConfig());
     }
 
     addRemHandler(event) {
@@ -84,10 +80,10 @@ class Params {
         
         if (btnId.includes('params__prem')) {
             // Update state.paramsCfg.param with removed value
-            this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]] = handleRemBtn(prevEl, prevEl.value);
+            this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]] = handleRemBtn(prevEl, this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]]);
         } else if (btnId.includes('params__padd')) {
             // Update state.paramsCfg.param with added value
-            this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]] = handleAddBtn(prevEl, paramNo, prevEl.value);
+            this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]] = handleAddBtn(prevEl, paramNo, this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]]);
         }
     }
 }
