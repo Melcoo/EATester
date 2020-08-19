@@ -7,7 +7,7 @@ const { getElements } = require('./base');
 
 class Params {
     constructor(eaName, paramsCfg) {
-        this.eaName = eaName;
+        eaName == '' ? this.eaName = 'EA Tester' : this.eaName = eaName;
         this.paramsCfg = paramsCfg;
         // Get DOM elements
         this.elements = getElements().params;

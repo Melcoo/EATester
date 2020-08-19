@@ -1,49 +1,83 @@
-
 /////////////////////////////////////////////////////
 ///  Page 2: RESULTS
 /////////////////////////////////////////////////////
+const { getElements } = require('./base');
 
+class Results {
+  constructor(eaName, resultsCfg, paramsCfg) {
+    eaName == '' ? this.eaName = 'EA Tester' : this.eaName = eaName;
+    this.resultsCfg = resultsCfg;
+    this.paramsCfg = paramsCfg;
+    // Get DOM elements
+    this.elements = getElements().results;
 
+    // Display EA name as title
+    this.elements.title.textContent = this.eaName;
+  }
 
+  renderParamNames() {
+    // Get list of params from report.json; if missing, return!
 
-/////////////////////////////////////////////////////
-///  Test code
-/////////////////////////////////////////////////////
+    // Select: Total Net Profit, Maximal Drawdown and array parameters from paramCfg
 
-//// Sample code for sync scrolling
+    // Create columns for each one and display param names in the dropdown lists
 
-/*
-var ignoreScrollEvents = false
-function syncScroll(element1, element2) {
-  element1.scroll(function (e) {
-    var ignore = ignoreScrollEvents
-    ignoreScrollEvents = false
-    if (ignore) return
+  }
 
-    ignoreScrollEvents = true
-    element2.scrollTop(element1.scrollTop())
-  })
+  renderResults() {
+    // Read array size (reportSize) from report.json
+
+    // Loop through latest elements until this.resultsCfg.noOfResults equals reportSize
+
+      // Render each line filling columns with param value and graph
+
+    this.syncScroll();
+  }
+
+  renderOneResult() {
+
+  }
+
+  btnHandler() {
+    const { saveConfig, loadConfig } = require('./app');
+
+    this.elements.saveBtn.addEventListener('click', () => saveConfig());
+    this.elements.loadBtn.addEventListener('click', () => loadConfig());
+    this.elements.graphsBtn.addEventListener('click', () => this.toggleGraphsOnly());
+    
+  }
+
+  addRemHandler(event) {
+
+  }
+
+  toggleGraphsOnly() {
+
+  }
+
+  syncScroll() {
+    // this.elements.graphs.scrollTop = this.elements.paramList.scrollTop;
+    // this.elements.paramList.scrollTop = this.elements.graphs.scrollTop;
+    this.elements.graphs.addEventListener('scroll', () => {
+      this.elements.paramList.scrollTop = this.elements.graphs.scrollTop;
+    });
+  }
 }
-syncScroll($("#div1"), $("#div2"))
-syncScroll($("#div2"), $("#div1"))
-*/
 
-/* <div id="div1" style="float:left;overflow:auto;height:100px;width:200px;">
-  <p>lulz</p>
-  <p>lulz</p>
-  <p>lulz</p>
-  <p>lulz</p>
-</div>
+const handleRemBtn = () => {
 
-<div id="div2" style="float:right;overflow:auto;height:100px;width:200px;">
-  <p>lulz</p>
-  <p>lulz</p>
-  <p>lulz</p>
-  <p>lulz</p>
-</div> */
+}
+
+const handleAddBtn = () => {
+
+}
+
+
+module.exports = Results;
+
 
 
 ////// Sample code for image link opening outside Electron
-/* 
+/*
 https://stackoverflow.com/questions/50519346/external-image-links-in-electron-do-not-open-in-an-external-browser
 */

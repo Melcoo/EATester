@@ -37,7 +37,6 @@ class Ea {
     
             this.enableEa();
             this.elements.eaList.value = this.eaCfg.eaName;
-            this.eaCfg.eaName = 'sdfsdfsdfs';
         };
     }
 

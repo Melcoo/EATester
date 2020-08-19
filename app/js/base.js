@@ -32,7 +32,12 @@ exports.getElements = () => {
             loadBtn: document.getElementById('params__load--btn')
         },
         results: {
-
+            title: document.getElementById('results--title'),
+            saveBtn: document.getElementById('results__save--btn'),
+            loadBtn: document.getElementById('results__load--btn'),
+            graphsBtn: document.getElementById('results__graphs--btn'),
+            paramList: document.querySelector('.results__paramlist'),
+            graphs: document.querySelector('.results__graphs'),
         }
     }
 };

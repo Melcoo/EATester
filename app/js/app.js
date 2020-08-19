@@ -3,7 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const Ea = require('./ea');
 const Params = require('./params');
+const Results = require('./results');
 const { getElements } = require('./base');
+
 
 let elements = '';
 
@@ -118,7 +120,10 @@ const controlParams = () => {
 ///  Page 2: RESULTS
 /////////////////////////////////////////////////////
 const controlResults = () => {
+    const results = new Results(state.eaCfg.eaName, state.resultsCfg);
 
+    // Listen to button events on this page
+    results.btnHandler()    
 }
 
 
@@ -168,12 +173,10 @@ const pages = [
 
 const initApp = () => {
     // Will be set after loading prvious config
-    state.activePage = 0;
-
+    state.activePage = 2;
     elements = getElements().main;
 
     btnHandler();
-
     loadPage(state.activePage);
 }
 
