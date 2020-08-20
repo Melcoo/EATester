@@ -122,8 +122,13 @@ const controlParams = () => {
 const controlResults = () => {
     const results = new Results(state.eaCfg.eaName, state.resultsCfg);
 
+    // Display columns with param names based on report.json and state.paramsCfg array values
+    results.renderParamNames(state.paramsCfg);
+
     // Listen to button events on this page
-    results.btnHandler()    
+    results.btnHandler();
+
+    results.renderResults();
 }
 
 
