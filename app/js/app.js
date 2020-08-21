@@ -58,7 +58,7 @@ const saveConfig = () => {
 
     const cfgPath = remote.dialog.showSaveDialogSync(dialogOptions);
     if (cfgPath) {
-        fs.writeFile(path.resolve(cfgPath), JSON.stringify(state), (err,data) => {
+        fs.writeFile(path.resolve(cfgPath), JSON.stringify(state), (err) => {
             if (err) {
               return console.log(err);
             }
@@ -81,7 +81,7 @@ const loadConfig = () => {
     if (cfgPath) {
         state = JSON.parse(fs.readFileSync(cfgPath[0]));
         loadPage(state.activePage);
-    }    
+    } 
 }
 
 exports.loadPage = loadPage;

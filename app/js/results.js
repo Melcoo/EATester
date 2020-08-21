@@ -15,32 +15,38 @@ class Results {
   constructor(eaName, resultsCfg) {
     eaName == '' ? this.eaName = 'EA Tester' : this.eaName = eaName;
     this.resultsCfg = resultsCfg;
-    this.finalReport = '';
+    this.noOfResults = 0;
+    
     // Get DOM elements
     this.elements = getElements().results;
 
     // Display EA name as title
     this.elements.title.textContent = this.eaName;
 
+    // Add as options list of params from report.json
+    if (!this.resultsCfg.fullReport) {
+      this.resultsCfg.fullReport = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Reports\\report.json')));
+    }
+
     // Add: Total Net Profit, Maximal Drawdown to visible columns
-    this.resultsCfg.visibleParams = visibleParams;
+    if (!this.resultsCfg.visibleParams) this.resultsCfg.visibleParams = visibleParams;
   }
 
-  renderParamNames(paramsCfg) {    
-    // Add as options list of params from report.json
-    this.finalReport = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Reports\\report.json'))); 
-    
+
+  renderParamNames(paramsCfg) {       
     // Add as options lsit parameters from report.json
-    if (this.finalReport.length > 0) {
+    if (this.resultsCfg.fullReport.length > 0) {
       // Remove "Parameters", "Graph", "Report" fom array
-      this.resultsCfg.params = Object.keys(this.finalReport[0]).filter(el => ((el != "Parameters") && (el != "Graph") && (el != "Report")));
+      this.resultsCfg.params = Object.keys(this.resultsCfg.fullReport[0]).filter(el => ((el != "Parameters") && (el != "Graph") && (el != "Report")));
     }
 
     // Read parameter list from Param page and find array parameters
     if (paramsCfg) {
       // Add them to the visible params columns
       Object.keys(paramsCfg).map((el) => {
-        if (Array.isArray(paramsCfg[el])) this.resultsCfg.visibleParams.push(el)
+        if (Array.isArray(paramsCfg[el]) && (!this.resultsCfg.visibleParams.includes(el))) {
+          this.resultsCfg.visibleParams.push(el);
+        }
       });
       // Add as options list all parameters from params Page
       this.resultsCfg.params.push(...Object.keys(paramsCfg)); 
@@ -50,21 +56,52 @@ class Results {
     this.resultsCfg.visibleParams.forEach(el => {
       this.elements.paramList.insertAdjacentHTML('beforeend', renderParams(this.resultsCfg.params, el));
     });
+
+    // Add event listener to rerender param values and graphs if visible options change
+    this.handleOptions();
+  }
+
+  handleOptions() {
+    document.querySelectorAll('.results__param__select').forEach((el, idx) => {
+      el.addEventListener('change', (event) => {
+        this.resultsCfg.visibleParams[idx] = event.srcElement[event.srcElement.selectedIndex].value;
+        event.target.nextSibling.nextElementSibling.id = `results__value--${event.srcElement[event.srcElement.selectedIndex].value}`;
+        this.clearAllVisible();
+        this.renderResults();
+      });
+    })
+  }
+
+  clearAllVisible = () => {
+    document.querySelectorAll('.results__param__values').forEach(el => {
+      el.textContent = '';
+    })
+    document.querySelector('.results__graphlist').textContent = '';
+    this.noOfResults = 0;
   }
 
   renderResults() {
-    // Get list of params from report.json; if missing, return!
-    if (this.finalReport.length == 0) return;
+    if ((this.resultsCfg.fullReport.length == 0) || (!this.resultsCfg.visibleParams)) return;
 
     // Read array size (reportSize) from report.json
-    let params = Object.keys(this.finalReport[0]);
+    let results = this.resultsCfg.fullReport;    
 
-    // Loop through latest elements until this.resultsCfg.noOfResults equals reportSize
+    // Loop through all visible params (all displayes columns)
+    this.resultsCfg.visibleParams.forEach(el => {
+      if (Object.keys(results[0]).includes(el)) {
+        // Loop through latest elements until noOfResults equals reportSize
+        for (let idx = this.noOfResults; idx < results.length; idx++) {
+          // Render each line filling columns with param value and graph
+          document.getElementById(`results__value--${el}`).insertAdjacentHTML('beforeend', renderOneVal(results[idx][el]));
+          document.querySelector('.results__graphlist').insertAdjacentHTML('beforeend', renderOneGraph(results[idx]["Report"], results[idx]["Graph"]));
+        }
+      }
+    });
 
-      // Render each line filling columns with param value and graph
-
+    this.noOfResults = results.length;
     this.syncScroll();
   }
+
 
   btnHandler() {
     const { saveConfig, loadConfig } = require('./app');
@@ -72,7 +109,8 @@ class Results {
     this.elements.saveBtn.addEventListener('click', () => saveConfig());
     this.elements.loadBtn.addEventListener('click', () => loadConfig());
     this.elements.graphsBtn.addEventListener('click', () => this.toggleGraphsOnly());
-    
+    this.elements.addBtn.addEventListener('click', () => console.log('Add param to Results'));
+    this.elements.remBtn.addEventListener('click', () => console.log('Remove param from Results'));
   }
 
   addRemHandler(event) {
@@ -101,9 +139,8 @@ const renderParams = (params, curParam) => {
               ${params.map(el => '<option>' + el +'</option>').join('')}
           </select>
 
-          <div class="results__param__values">
-              <div class="results__param__pvalue"><p>1.10000000</p><hr></div>
-              <div class="results__param__pvalue"><p>1.10000000</p><hr></div>
+          <div class="results__param__values" id="results__value--${curParam}">
+
           </div>
       </div>
 
@@ -113,8 +150,16 @@ const renderParams = (params, curParam) => {
   `);
 }
 
-const renderOneResult = (val) => {
+const renderOneVal = (val) => {
   return (`<div class="results__param__pvalue"><p>${val}</p><hr></div>`);
+}
+
+const renderOneGraph = (href, img) => {
+  return (`
+  <a href="${href}" target="_blank">
+    <img src="${img}" alt="${img}">
+  </a>
+  `);
 }
 
 const handleRemBtn = () => {

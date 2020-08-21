@@ -38,6 +38,8 @@ exports.getElements = () => {
             graphsBtn: document.getElementById('results__graphs--btn'),
             paramList: document.querySelector('.results__paramlist'),
             graphs: document.querySelector('.results__graphs'),
+            addBtn: document.getElementById('results__add--btn'),
+            remBtn: document.getElementById('results__rem--btn')
         }
     }
 };

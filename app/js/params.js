@@ -37,27 +37,9 @@ class Params {
                 value: valToArray(paramsConfig[key])
             }
 
-            this.renderOneParam(param); 
+            this.elements.params.insertAdjacentHTML('beforeend', renderOneParam(param));
         });
         
-    }
-
-    renderOneParam(param) {
-        const markup = `
-        <div class="params__row clearfix">
-            <div class="params__pname" id="params__pname--${param.no}">${param.name}</div>
-            
-            ${param.value.map(el => oneParamVal(param.no, el)).join('')}
-    
-            <div class="params__add">
-                <button class="params__addrembtn icon__btn" id="params__prem--${param.no}"><ion-icon src="css\\remove-circle-outline.svg"></ion-icon></button>
-                <button class="params__addrembtn icon__btn" id="params__padd--${param.no}"><ion-icon src="css\\add-circle-outline.svg"></ion-icon></button>
-            </div>
-            <hr>
-        </div>
-        `;
-    
-        this.elements.params.insertAdjacentHTML('beforeend', markup);
     }
 
     btnHandler() {
@@ -88,7 +70,23 @@ class Params {
     }
 }
 
-const oneParamVal = (paramNo, paramVal) => `
+const renderOneParam = (param) => {
+    return (`
+    <div class="params__row clearfix">
+        <div class="params__pname" id="params__pname--${param.no}">${param.name}</div>
+        
+        ${param.value.map(el => renderOneVal(param.no, el)).join('')}
+
+        <div class="params__add">
+            <button class="params__addrembtn icon__btn" id="params__prem--${param.no}"><ion-icon src="css\\remove-circle-outline.svg"></ion-icon></button>
+            <button class="params__addrembtn icon__btn" id="params__padd--${param.no}"><ion-icon src="css\\add-circle-outline.svg"></ion-icon></button>
+        </div>
+        <hr>
+    </div>
+    `);
+}
+
+const renderOneVal = (paramNo, paramVal) => `
     <textarea class="params__pval" id="params__pvalue--${paramNo}_${paramVal.no}" cols="11" rows="1">${paramVal.val}</textarea>
 `;
 
@@ -107,7 +105,7 @@ const handleAddBtn = (prevEl, paramNo, value) => {
         paramVal.val = value;
         value = [paramVal.val, paramVal.val];
     }
-    prevEl.insertAdjacentHTML('afterend', oneParamVal(paramNo, paramVal));
+    prevEl.insertAdjacentHTML('afterend', renderOneVal(paramNo, paramVal));
 
     return value;
 }
