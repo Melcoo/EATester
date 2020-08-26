@@ -35,9 +35,9 @@ exports.getElements = () => {
             title: document.getElementById('results--title'),
             saveBtn: document.getElementById('results__save--btn'),
             loadBtn: document.getElementById('results__load--btn'),
-            graphsBtn: document.getElementById('results__graphs--btn'),
+            pauseBtn: document.getElementById('results__pause--btn'),
             paramList: document.querySelector('.results__paramlist'),
-            graphs: document.querySelector('.results__graphs'),
+            graphs: document.querySelector('.results__graphlist'),
             addBtn: document.getElementById('results__add--btn'),
             remBtn: document.getElementById('results__rem--btn')
         }
