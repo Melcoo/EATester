@@ -31,6 +31,8 @@ class Results {
 
     // Add: Total Net Profit, Maximal Drawdown to visible columns
     if (!this.resultsCfg.visibleParams) this.resultsCfg.visibleParams = visibleParams;
+
+    this.resultsCfg.paused = 'true';
   }
 
   //// Create columns for all visible parameters
@@ -53,15 +55,20 @@ class Results {
       this.resultsCfg.params.push(...Object.keys(paramsCfg)); 
     }
 
-    // Create columns for each one and display param names in the dropdown lists
-    this.resultsCfg.visibleParams.forEach(el => {
-      this.elements.paramList.insertAdjacentHTML('beforeend', renderParams(this.resultsCfg.params, el));
-    });
+    this.renderParamColumns();
+  }
 
-    // Add event listener to rerender param values and graphs if visible options change
-    this.handleOptions();
-    // Hanle Filter button
-    this.hanldeFilterBtn();
+  //// Create columns for all visible parameters
+  renderParamColumns() {
+      // Create columns for each one and display param names in the dropdown lists
+      this.resultsCfg.visibleParams.forEach(el => {
+        this.elements.paramList.insertAdjacentHTML('beforeend', renderParams(this.resultsCfg.params, el));
+      });
+  
+      // Add event listener to rerender param values and graphs if visible options change
+      this.handleOptions();
+      // Handle Filter button
+      this.hanldeFilterBtn();
   }
 
   //// Handler for dropdown options
@@ -86,18 +93,25 @@ class Results {
   }
 
   //// When Filter button is clicked, order column values descendingly/ascendingly
-  hanldeFilterBtn() {
-    document.querySelectorAll('.results__param__filter').forEach(el => {
-      el.addEventListener('click', event => {
-        // Get selected option from id of the div located(in html) above the button
-        const paramName = event.currentTarget.previousElementSibling.lastElementChild.id.split('--')[1];
-
-        // If param has already been sorted, sort the other way
-        this.rearangeFullReport(paramName, (paramName === this.sortedParam));
-        this.clearAllVisible();
-        this.renderResults();
+  hanldeFilterBtn(onlyLastParam = false) {
+    if (onlyLastParam) {
+      const lastFilter = document.querySelectorAll('.results__param__filter');
+      lastFilter[lastFilter.length - 1].addEventListener('click', event => this.filterParam(event));
+    } else {
+      document.querySelectorAll('.results__param__filter').forEach(el => {
+        el.addEventListener('click', event => this.filterParam(event));
       });
-    });
+    }
+  }
+
+  filterParam(event) {
+      // Get selected option from id of the div located(in html) above the button
+      const paramName = event.currentTarget.previousElementSibling.lastElementChild.id.split('--')[1];
+
+      // If param has already been sorted, sort the other way
+      this.rearangeFullReport(paramName, (paramName === this.sortedParam));
+      this.clearAllVisible();
+      this.renderResults();
   }
 
   //// Sort state.resultsCfg.fullReport based on one parameter
@@ -138,7 +152,10 @@ class Results {
         // Loop through latest elements until noOfResults equals reportSize
         for (let idx = this.noOfResults; idx < results.length; idx++) {
           // Render each line filling columns with param value and graph
-          document.getElementById(`results__value--${el}`).insertAdjacentHTML('beforeend', renderOneVal(results[idx][el]));
+          document.querySelectorAll(`[id='results__value--${el}']`).forEach(element => {
+            element.insertAdjacentHTML('beforeend', renderOneVal(results[idx][el]));
+          });
+          // document.getElementById(`results__value--${el}`).insertAdjacentHTML('beforeend', renderOneVal(results[idx][el]));
           // Only render graphs once (not for all param value columns)
           if (!graphsRendered) {
             document.querySelector('.results__graphlist').insertAdjacentHTML('beforeend', renderOneGraph(results[idx]["Report"], results[idx]["Graph"]));
@@ -159,13 +176,9 @@ class Results {
 
     this.elements.saveBtn.addEventListener('click', () => saveConfig());
     this.elements.loadBtn.addEventListener('click', () => loadConfig());
-    this.elements.pauseBtn.addEventListener('click', () => console.log('Pause python script'));
-    this.elements.addBtn.addEventListener('click', () => console.log('Add param to Results'));
-    this.elements.remBtn.addEventListener('click', () => console.log('Remove param from Results'));
-  }
-
-  addRemHandler(event) {
-
+    this.elements.pauseBtn.addEventListener('click', () => this.handlepauseBtn());
+    this.elements.addBtn.addEventListener('click', () => this.handleAddBtn());
+    this.elements.remBtn.addEventListener('click', () => this.handleRemBtn());
   }
 
   //// Sync hidden scroll of param columns with visible scrollbar graphs column
@@ -197,6 +210,40 @@ class Results {
     });
   }
 
+  //// Add another param column 
+  handleAddBtn() {
+    // Push the last element to visible params (param columns in html)
+    let params = this.resultsCfg.visibleParams;
+    // Limit number of param columns to 10
+    if (params.length <= 10) {
+      params.push(params[params.length - 1]);
+      this.noOfResults++;
+  
+      // Create a new column
+      const col = this.elements.paramList.lastElementChild.cloneNode(true);
+      this.elements.paramList.appendChild(col);
+  
+      this.handleOptions();
+      this.hanldeFilterBtn(true);
+    }
+  }
+
+  //// Remove last param column
+  handleRemBtn() {
+    if (this.resultsCfg.visibleParams.length > 1) {
+      // Remove last element from visible params
+      this.resultsCfg.visibleParams.pop();
+      this.noOfResults--;
+
+      // Remove last param column
+      this.elements.paramList.lastElementChild.remove();
+    }
+  }
+
+  handlepauseBtn() {
+    this.resultsCfg.paused == true ? this.elements.pauseBtn.textContent = 'Pause' : this.elements.pauseBtn.textContent = 'Resume';
+    this.resultsCfg.paused ^= true;
+  }
 }
 
 //// Markup for one param column 
@@ -232,14 +279,6 @@ const renderOneGraph = (href, img) => {
     <img src="${img}" alt="${img}">
   </a>
   `);
-}
-
-const handleRemBtn = () => {
-
-}
-
-const handleAddBtn = () => {
-
 }
 
 

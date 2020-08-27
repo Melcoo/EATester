@@ -51,7 +51,7 @@
     width: 865px;
     height: 542px;
     white-space:nowrap; 
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: auto;
 }
 
