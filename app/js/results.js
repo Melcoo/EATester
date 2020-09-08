@@ -11,6 +11,7 @@ const visibleParams = [
   "Maximal drawdown"
 ];
 
+
 class Results {
   constructor(eaName, resultsCfg) {
     eaName == '' ? this.eaName = 'EA Tester' : this.eaName = eaName;
@@ -26,7 +27,7 @@ class Results {
 
     // Add as options list of params from report.json
     if (!this.resultsCfg.fullReport) {
-      this.resultsCfg.fullReport = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Reports\\report.json')));
+      this.getJsonResults();
     }
 
     // Add: Total Net Profit, Maximal Drawdown to visible columns
@@ -104,6 +105,7 @@ class Results {
     }
   }
 
+  //// Filter all columns after one param
   filterParam(event) {
       // Get selected option from id of the div located(in html) above the button
       const paramName = event.currentTarget.previousElementSibling.lastElementChild.id.split('--')[1];
@@ -168,6 +170,14 @@ class Results {
     this.noOfResults = results.length;
     this.syncScroll();
     this.openGraphsExternal();
+  }
+
+  //// Add as options list of params from report.json
+  getJsonResults() {
+    // For built app
+    // this.resultsCfg.fullReport = JSON.parse(fs.readFileSync(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Reports\\report.json')); 
+    // For running app
+    this.resultsCfg.fullReport = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Reports\\report.json')));
   }
 
   //// General button handler for static elements 

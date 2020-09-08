@@ -4,6 +4,7 @@
 const path = require('path');
 const fs = require('fs');
 const { getElements } = require('./base');
+const { spawnPyApp } = require('./py');
 
 class Params {
     constructor(eaName, paramsCfg) {
@@ -25,6 +26,9 @@ class Params {
             paramsConfig = this.paramsCfg;
         } else {
             // Parse ea_settings_templ.json and get EA param names and default values
+            // For built app
+            // paramsConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Templ\\ea_settings_templ.json')); 
+            // For running app
             paramsConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Templ\\ea_settings_templ.json'))); 
             for(var prop in paramsConfig) {
                 this.paramsCfg[prop] = paramsConfig[prop];
@@ -42,17 +46,26 @@ class Params {
         
     }
 
-    btnHandler() {
+    btnHandler(eaCfg) {
         const { loadPage, saveConfig, loadConfig } = require('./app');
 
         // this.elements.addRemBtns.addEventListener('click', event => addRemoveVal.bind(this));
         document.querySelectorAll('.params__addrembtn').forEach(el => {
-            el.addEventListener('click', (event) => this.addRemHandler(event).bind(this));
+            el.addEventListener('click', (event) => this.addRemHandler(event));
         })
         
-        this.elements.runBtn.addEventListener('click', () => loadPage(2));
+        this.elements.runBtn.addEventListener('click', () => this.handleRunBtn(eaCfg));
         this.elements.saveBtn.addEventListener('click', () => saveConfig());
         this.elements.loadBtn.addEventListener('click', () => loadConfig());
+    }
+
+    handleRunBtn(eaCfg) {
+        // Create usr_settings.json
+        createUsrSettings(eaCfg, this.paramsCfg);
+
+        // Start eatester.py to run MT4
+        const mt4path = '"' + eaCfg.mt4path.slice(0, -1) +'"';
+        spawnPyApp('eatester.exe', runBtn_OnStdOut, runBtn_OnClose, mt4path);
     }
 
     addRemHandler(event) {
@@ -141,5 +154,37 @@ const valToArray = (value) => {
     }
 };
 
+const runBtn_OnStdOut = (data, child) => {
+    const { loadPage, updateResults, getMt4Path } = require('./app');
+    const { spawnPyApp } = require('./py');
+
+    console.log("runBtn_OnStdOut: " + data);
+    if (data.toString().includes("EaTester: [Info] Run 1 ended.")) loadPage(2);
+    if (data.toString().includes("Continue? (y/n):")) {
+        // Read Run state - Run, Stop and respond to eatester.py with "y" or "n"
+        child.stdin.write("y\n");
+        
+        // Call reports.py to update report.json
+        const resultsPath = '"' + getMt4Path() + "reports\\AutomatedTesting_EURUSD" + '"';
+        spawnPyApp('reports.exe', runEatester_onStdOut, updateResults, resultsPath);
+    }
+}
+
+const runBtn_OnClose = (data) => {
+    const { getElements } = require('./base');
+    if (data == 0) {
+        if (getElements().params.runBtn != null) getElements().params.runBtn.textContent = 'Run';
+        if (getElements().results.pauseBtn != null) getElements().results.pauseBtn.textContent = 'Run';
+    }
+}
+
+const runEatester_onStdOut = (data) => {
+    console.log("runEatester_onStdOut: " + data);
+}
+
+//// Create usr_settings.json
+const createUsrSettings = (eaCfg, paramsCfg) => {
+    // Path to usr_settings.json is fixed
+}
 
 module.exports = Params;

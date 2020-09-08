@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////
 ///  Page 0: EA
 /////////////////////////////////////////////////////
-const path = require('path');
 const fs = require('fs');
 const { getElements } = require('./base');
 const { spawnPyApp } = require('./py');
  
+
 class Ea {
     constructor(eaCfg, pages) {
         this.eaCfg = eaCfg;
@@ -100,9 +100,9 @@ class Ea {
             this.elements.continueBtn.textContent = 'Getting default settings...';
             continueBtnToggle(false);
 
-            // TODO: replace loadPage(1) with spawnPyApp()
-            loadPage(1);
-            // spawnPyApp('templ', continueBtnOnStdOut, continueBtnOnClose.bind(this), this.eaCfg.mt4path, this.eaCfg.eaName);
+            const mt4path = '"' + this.eaCfg.mt4path.slice(0, -1) +'"';
+            const eaName = '"' + this.eaCfg.eaName + '"';
+            spawnPyApp('templ.exe', templ_OnStdOut, templ_OnClose.bind(this), mt4path, eaName);
         };
     }
 
@@ -126,11 +126,11 @@ const isContinueBtnActive = () => {
     return !(btn.classList.contains('nonactive'));
 }
 
-const continueBtnOnStdOut = (data) => {
+const templ_OnStdOut = (data, child) => {
     console.log(data.toString());
 }
 
-const continueBtnOnClose = (data) => {
+const templ_OnClose = (data) => {
     const { loadPage } = require('./app');
     const { getElements } = require('./base');
 

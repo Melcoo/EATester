@@ -1,6 +1,5 @@
 const electron = require('electron');
 const { app, BrowserWindow, ipcMain, remote } = electron;
-require('electron-reload')(__dirname);
 const updater = require('./updater.js');
 
 

@@ -1,4 +1,4 @@
-const { ipcRenderer, shell, remote } = require('electron');
+const { ipcRenderer, remote } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const Ea = require('./ea');
@@ -8,7 +8,7 @@ const { getElements } = require('./base');
 
 
 let elements = '';
-
+const STARTPAGE = 0;
 
 /////////////////////////////////////////////////////
 ///  Menu Bar
@@ -84,9 +84,21 @@ const loadConfig = () => {
     } 
 }
 
+//// Update results page each time a MT4 run has finished
+const updateResults = () => {
+    // results.getJsonResults();
+    // results.renderResults();
+}
+
+const getMt4Path = () => { 
+    return state.eaCfg.mt4path;
+}
+
 exports.loadPage = loadPage;
 exports.saveConfig = saveConfig;
 exports.loadConfig = loadConfig;
+exports.updateResults = updateResults;
+exports.getMt4Path = getMt4Path;
 
 /////////////////////////////////////////////////////
 ///  Page 0: EA
@@ -112,7 +124,7 @@ const controlParams = () => {
     params.renderParams();
 
     // Listen to button events on this page
-    params.btnHandler();
+    params.btnHandler(state.eaCfg);
 }
 
 
@@ -178,7 +190,7 @@ const pages = [
 
 const initApp = () => {
     // Will be set after loading prvious config
-    state.activePage = 2;
+    state.activePage = STARTPAGE;
     elements = getElements().main;
 
     btnHandler();
