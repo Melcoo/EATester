@@ -60,6 +60,7 @@ class Params {
     }
 
     handleRunBtn(eaCfg) {
+        this.updateParamCfg();
         // Create usr_settings.json
         createUsrSettings(eaCfg, this.paramsCfg);
 
@@ -80,6 +81,22 @@ class Params {
             // Update state.paramsCfg.param with added value
             this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]] = handleAddBtn(prevEl, paramNo, this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]]);
         }
+    }
+
+    updateParamCfg() {
+        // Based on displayed values for each param, update this.paramsCfg
+        document.querySelectorAll('.params__pname').forEach(el => {
+            if (Array.isArray(this.paramsCfg[el.textContent])) {
+                this.paramsCfg[el.textContent].forEach((val, idx) => {
+                    // console.log(el.textContent);
+                    // console.log(val);
+                    this.paramsCfg[el.textContent][idx] = document.getElementById(el.id.replace('pname', 'pvalue') + '_' + idx).value;
+                })
+            } else {
+                this.paramsCfg[el.textContent] = el.nextElementSibling.value;
+            }
+        })
+        console.log(this.paramsCfg);
     }
 }
 
@@ -155,7 +172,7 @@ const valToArray = (value) => {
 };
 
 const runBtn_OnStdOut = (data, child) => {
-    const { loadPage, updateResults, getMt4Path } = require('./app');
+    const { loadPage, updateResults, getMt4Path, getSymbol } = require('./app');
     const { spawnPyApp } = require('./py');
 
     console.log("runBtn_OnStdOut: " + data);
@@ -165,7 +182,7 @@ const runBtn_OnStdOut = (data, child) => {
         child.stdin.write("y\n");
         
         // Call reports.py to update report.json
-        const resultsPath = '"' + getMt4Path() + "reports\\AutomatedTesting_EURUSD" + '"';
+        const resultsPath = '"' + getMt4Path() + "reports\\AutomatedTesting_" + getSymbol() + '"';
         spawnPyApp('reports.exe', runEatester_onStdOut, updateResults, resultsPath);
     }
 }
@@ -185,6 +202,29 @@ const runEatester_onStdOut = (data) => {
 //// Create usr_settings.json
 const createUsrSettings = (eaCfg, paramsCfg) => {
     // Path to usr_settings.json is fixed
+    const usrSettings = {
+        st_settings: {
+            TestExpert: eaCfg.eaName,
+            TestSymbol: eaCfg.symbol,
+            TestPeriod: eaCfg.period,
+            TestFromDate: eaCfg.fromDate,
+            TestToDate: eaCfg.toDate,
+            TestSpread: eaCfg.spread            
+        }, 
+        ea_settings: paramsCfg
+    };
+
+    // For built app
+    // const usrSettingsPath = fs.readFileSync(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
+    // For running app
+    const usrSettingsPath = path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
+    if (usrSettingsPath) {
+        fs.writeFile(usrSettingsPath, JSON.stringify(usrSettings), (err) => {
+            if (err) {
+              return console.log(err);
+            }
+        });
+    }
 }
 
 module.exports = Params;

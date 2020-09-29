@@ -94,11 +94,16 @@ const getMt4Path = () => {
     return state.eaCfg.mt4path;
 }
 
+const getSymbol = () => { 
+    return state.eaCfg.symbol;
+}
+
 exports.loadPage = loadPage;
 exports.saveConfig = saveConfig;
 exports.loadConfig = loadConfig;
 exports.updateResults = updateResults;
 exports.getMt4Path = getMt4Path;
+exports.getSymbol = getSymbol;
 
 /////////////////////////////////////////////////////
 ///  Page 0: EA
