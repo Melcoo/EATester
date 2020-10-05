@@ -4,6 +4,7 @@
 const fs = require('fs');
 const { getElements } = require('./base');
 const { spawnPyApp } = require('./py');
+const { getBtnCfg } = require('./app')
  
 
 class Ea {
@@ -41,8 +42,9 @@ class Ea {
     }
 
     handleMt4Path() {
+        const { setContinueBtn } = require('./app')
         const terminalPath = this.elements.browse.files[0].path;
-    
+
         // Update text area with area
         if(terminalPath.substr(-12) == 'terminal.exe') {
             this.elements.mt4path.value = terminalPath;
@@ -50,6 +52,8 @@ class Ea {
     
             this.enableEa();
             this.eaCfg.eaName = this.selectEa.options[0].text;
+
+            setContinueBtn(false);
         } else {
             this.eaCfg.mt4path = '';
             this.selectEa.textContent = '';
@@ -59,12 +63,13 @@ class Ea {
                 el.setAttribute("disabled", "");
             });
 
-            continueBtnToggle(false);   
+            setContinueBtn(true);
         }
     }
 
     //// Display EA options
     enableEa() {
+        const { setContinueBtn } = require('./app')
         const files = fs.readdirSync(this.eaCfg.mt4path + '\\MQL4\\Experts\\');
 
         this.selectEa.textContent = '';
@@ -80,14 +85,12 @@ class Ea {
         document.querySelectorAll('[name*="ea__to_disable"]').forEach(el => {
             el.removeAttribute("disabled");
         });
-
-        continueBtnToggle(true);
     }
 
     //// Handle Continue button
     handleContinueBtn() {
-        if (isContinueBtnActive()) {
-            const { loadPage, runPy } = require('./app');
+        const { getBtnCfg, setContinueBtn } = require('./app')
+        if (getBtnCfg()) {
             const eaSymbol = this.elements.eaSymbol.value;
 
             (eaSymbol) ? this.eaCfg.symbol = eaSymbol : this.eaCfg.symbol = 'eurusd';
@@ -97,33 +100,15 @@ class Ea {
             this.eaCfg.fromDate = this.elements.eaDateFrom.value.replace(/-/g, '.');
             this.eaCfg.toDate = this.elements.eaDateTo.value.replace(/-/g, '.'); 
 
+            setContinueBtn(true);
             this.elements.continueBtn.textContent = 'Getting default settings...';
-            continueBtnToggle(false);
 
             const mt4path = '"' + this.eaCfg.mt4path.slice(0, -1) +'"';
             const eaName = '"' + this.eaCfg.eaName + '"';
-            spawnPyApp('templ.exe', templ_OnStdOut, templ_OnClose.bind(this), mt4path, eaName);
+            spawnPyApp('templ.exe', templ_OnStdOut, templ_OnClose, mt4path, eaName);
         };
     }
 
-}
-
-//// Change opacity of "Continue" button
-const continueBtnToggle = (on) => {
-    const btn = document.querySelector('.ea__continue');
-    if(on === false) {
-        btn.classList.add('nonactive');
-    } else if(on === true) {
-        if (btn.classList.contains('nonactive')) {
-            btn.classList.remove('nonactive');
-        }
-    }
-}
-
-//// Check if Continue Button is active
-const isContinueBtnActive = () => {
-    const btn = document.querySelector('.ea__continue');
-    return !(btn.classList.contains('nonactive'));
 }
 
 const templ_OnStdOut = (data, child) => {
@@ -131,12 +116,10 @@ const templ_OnStdOut = (data, child) => {
 }
 
 const templ_OnClose = (data) => {
-    const { loadPage } = require('./app');
-    const { getElements } = require('./base');
+    const { loadPage, setContinueBtn } = require('./app');
 
     if (data == 0) {
-        getElements().ea.continueBtn.textContent = 'Get default settings';
-        continueBtnToggle(true);
+        setContinueBtn(false); 
         loadPage(1);
     }
 }

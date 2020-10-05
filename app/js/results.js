@@ -26,9 +26,9 @@ class Results {
     this.elements.title.textContent = this.eaName;
 
     // Add as options list of params from report.json
-    if (!this.resultsCfg.fullReport) {
-      this.getJsonResults();
-    }
+    // if (!this.resultsCfg.fullReport) {
+      this.getJsonReport();
+    // }
 
     // Add: Total Net Profit, Maximal Drawdown to visible columns
     if (!this.resultsCfg.visibleParams) this.resultsCfg.visibleParams = visibleParams;
@@ -173,11 +173,15 @@ class Results {
   }
 
   //// Add as options list of params from report.json
-  getJsonResults() {
+  getJsonReport() {
     // For built app
     // this.resultsCfg.fullReport = JSON.parse(fs.readFileSync(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Reports\\report.json')); 
     // For running app
     this.resultsCfg.fullReport = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Reports\\report.json')));
+    this.resultsCfg.fullReport.forEach(el => {
+      el = Object.assign(el, el['Parameters']);
+      delete el['Parameters'];
+    });
   }
 
   //// General button handler for static elements 

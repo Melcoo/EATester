@@ -25,25 +25,3 @@ exports.spawnPyApp = (app, onStdOut, onClose, ...args) => {
         onClose(code);
       });
 }
-
-
-//// Playing with PythonShell
-let { PythonShell } = require('python-shell');
-
-PythonShell.defaultOptions = {
-    mode: 'text',
-    pythonPath: 'C:\\Python3\\python.exe',
-    scriptPath: `${__dirname}`
-};
-
-const testPythonShell = async() => {
-    let pyOutput = '';
-    let pyData;
-    let PyShell = await new PythonShell('pyapp\\dist\\pyapp.exe');
-    PyShell.on('message', pyData => {
-        let date = new Date();
-        pyOutput += `<p>${pyData}, JS time: ${date.getMinutes()}:${date.getSeconds()}</p>`;
-            
-        document.querySelector('.div-text').innerHTML = pyOutput;
-    });
-}

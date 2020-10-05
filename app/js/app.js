@@ -26,9 +26,10 @@ const loadPage = async(pageNo) => {
 
     pages[pageNo].initFn();
     state.activePage = pageNo;
+    handleBtns();
 }
 
-const btnHandler = () => {
+const menuBtnHandler = () => {
     elements.closeBtn.addEventListener('click', () => { let evResp = ipcRenderer.send('ev:close') });
     elements.minBtn.addEventListener('click', () => { let evResp = ipcRenderer.send('ev:minimize') });
     elements.eaBtn.addEventListener('click', () => { loadPage(0) });
@@ -80,30 +81,83 @@ const loadConfig = () => {
     const cfgPath = remote.dialog.showOpenDialogSync(dialogOptions);
     if (cfgPath) {
         state = JSON.parse(fs.readFileSync(cfgPath[0]));
+        state.btnCfg = {
+            continueBtn: true,
+            runBtn: false,
+            pauseBtn: false
+        }
         loadPage(state.activePage);
     } 
 }
 
-//// Update results page each time a MT4 run has finished
-const updateResults = () => {
-    // results.getJsonResults();
-    // results.renderResults();
+//// Change text and add/remove 'nonactive' for Continue Btn on EA page
+const setContinueBtn = (cfg) => {
+    state.btnCfg.continueBtn = cfg;
+    handleBtns();
 }
 
-const getMt4Path = () => { 
-    return state.eaCfg.mt4path;
+//// Change text and add/remove 'nonactive' for Run Btn on PARAMS page
+const setRunBtn = (cfg) => {
+    state.btnCfg.runBtn = cfg;
+    handleBtns();
 }
 
-const getSymbol = () => { 
-    return state.eaCfg.symbol;
+//// Change text and add/remove 'nonactive' for Pause Btn on RESULTS page
+const setPauseBtn = (cfg) => {
+    state.btnCfg.pauseBtn = cfg;
+    handleBtns();
 }
+
+const handleBtns = () => {
+    let btnEl = '';
+    let textActive = '';
+    let textInactive = '';
+    let btnCfg = '';
+    switch (state.activePage){
+        case 0:
+            btnEl = getElements().ea.continueBtn;
+            textActive = 'Get default settings';
+            textInactive = 'Get default settings';
+            btnCfg = state.btnCfg.continueBtn;
+
+            break;
+        case 1:
+            btnEl = getElements().params.runBtn;
+            textActive = 'Run';
+            textInactive = 'Running';
+            btnCfg = state.btnCfg.runBtn;
+
+            break;
+        case 2:
+            btnEl = getElements().results.pauseBtn;
+            textActive = 'Pause';
+            textInactive = 'Resume';
+            btnCfg = state.btnCfg.pauseBtn;
+
+            break;                         
+    }
+
+    btnEl.textContent = textActive;
+    if (btnCfg == true) {
+        btnEl.classList.add('nonactive');
+        btnEl.textContent = textInactive;
+    } else if ((btnCfg == false) && (btnEl.classList.contains('nonactive'))){
+        btnEl.classList.remove('nonactive');
+    }
+}
+
+const getBtnCfg = () => state.btnCfg;
+
 
 exports.loadPage = loadPage;
 exports.saveConfig = saveConfig;
 exports.loadConfig = loadConfig;
-exports.updateResults = updateResults;
-exports.getMt4Path = getMt4Path;
-exports.getSymbol = getSymbol;
+exports.getBtnCfg = getBtnCfg;
+exports.setContinueBtn = setContinueBtn;
+exports.setRunBtn = setRunBtn;
+exports.handleBtns = handleBtns;
+exports.setPauseBtn = setPauseBtn;
+
 
 /////////////////////////////////////////////////////
 ///  Page 0: EA
@@ -169,7 +223,12 @@ let state = {
         toDate: ''
     },
     paramsCfg: {},
-    resultsCfg: {}
+    resultsCfg: {},
+    btnCfg: {
+        continueBtn: true,
+        runBtn: false,
+        pauseBtn: false
+    }
 }
 
 const pages = [
@@ -198,7 +257,7 @@ const initApp = () => {
     state.activePage = STARTPAGE;
     elements = getElements().main;
 
-    btnHandler();
+    menuBtnHandler();
     loadPage(state.activePage);
 }
 

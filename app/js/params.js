@@ -67,6 +67,9 @@ class Params {
         // Start eatester.py to run MT4
         const mt4path = '"' + eaCfg.mt4path.slice(0, -1) +'"';
         spawnPyApp('eatester.exe', runBtn_OnStdOut, runBtn_OnClose, mt4path);
+
+        // Change button text to "Running"
+        runBtnToggleRunning(true);
     }
 
     addRemHandler(event) {
@@ -96,7 +99,6 @@ class Params {
                 this.paramsCfg[el.textContent] = el.nextElementSibling.value;
             }
         })
-        console.log(this.paramsCfg);
     }
 }
 
@@ -171,33 +173,46 @@ const valToArray = (value) => {
     }
 };
 
+const runBtnToggleRunning = (on) => {
+    const { getElements } = require('./base');
+    const btn = getElements().params.runBtn;
+
+    if(on === true) {
+        btn.classList.add('nonactive');
+        btn.textContent = 'Running';
+    } else if(on === false) {
+        if (btn.classList.contains('nonactive')) {
+            btn.classList.remove('nonactive');
+            btn.textContent = 'Run';
+        }
+    }    
+}
+
+const isRunBtnRunning = () => {
+    
+}
+
 const runBtn_OnStdOut = (data, child) => {
-    const { loadPage, updateResults, getMt4Path, getSymbol } = require('./app');
-    const { spawnPyApp } = require('./py');
+    const { loadPage } = require('./app');
 
     console.log("runBtn_OnStdOut: " + data);
-    if (data.toString().includes("EaTester: [Info] Run 1 ended.")) loadPage(2);
     if (data.toString().includes("Continue? (y/n):")) {
         // Read Run state - Run, Stop and respond to eatester.py with "y" or "n"
         child.stdin.write("y\n");
-        
-        // Call reports.py to update report.json
-        const resultsPath = '"' + getMt4Path() + "reports\\AutomatedTesting_" + getSymbol() + '"';
-        spawnPyApp('reports.exe', runEatester_onStdOut, updateResults, resultsPath);
     }
+
+    loadPage(2);
 }
 
 const runBtn_OnClose = (data) => {
-    const { getElements } = require('./base');
+    const { loadPage } = require('./app');
+
+    runBtnToggleRunning(false);
     if (data == 0) {
-        if (getElements().params.runBtn != null) getElements().params.runBtn.textContent = 'Run';
-        if (getElements().results.pauseBtn != null) getElements().results.pauseBtn.textContent = 'Run';
+        loadPage(2);
     }
 }
 
-const runEatester_onStdOut = (data) => {
-    console.log("runEatester_onStdOut: " + data);
-}
 
 //// Create usr_settings.json
 const createUsrSettings = (eaCfg, paramsCfg) => {
