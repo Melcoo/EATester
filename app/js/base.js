@@ -39,7 +39,9 @@ exports.getElements = () => {
             paramList: document.querySelector('.results__paramlist'),
             graphs: document.querySelector('.results__graphlist'),
             addBtn: document.getElementById('results__add--btn'),
-            remBtn: document.getElementById('results__rem--btn')
+            remBtn: document.getElementById('results__rem--btn'),
+            refrBtn: document.getElementById('results__refr--btn'),
+            delBtn: document.getElementById('results__del--btn')
         }
     }
 };

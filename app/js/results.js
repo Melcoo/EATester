@@ -26,14 +26,10 @@ class Results {
     this.elements.title.textContent = this.eaName;
 
     // Add as options list of params from report.json
-    // if (!this.resultsCfg.fullReport) {
-      this.getJsonReport();
-    // }
+    this.getJsonReport();
 
     // Add: Total Net Profit, Maximal Drawdown to visible columns
     if (!this.resultsCfg.visibleParams) this.resultsCfg.visibleParams = visibleParams;
-
-    this.resultsCfg.paused = 'true';
   }
 
   //// Create columns for all visible parameters
@@ -186,13 +182,15 @@ class Results {
 
   //// General button handler for static elements 
   btnHandler() {
-    const { saveConfig, loadConfig } = require('./app');
+    const { saveConfig, loadConfig, loadPage } = require('./app');
 
     this.elements.saveBtn.addEventListener('click', () => saveConfig());
     this.elements.loadBtn.addEventListener('click', () => loadConfig());
-    this.elements.pauseBtn.addEventListener('click', () => this.handlepauseBtn());
+    this.elements.pauseBtn.addEventListener('click', () => this.handlePauseBtn());
     this.elements.addBtn.addEventListener('click', () => this.handleAddBtn());
     this.elements.remBtn.addEventListener('click', () => this.handleRemBtn());
+    this.elements.refrBtn.addEventListener('click', () => loadPage(2));
+    this.elements.delBtn.addEventListener('click', () => this.handleDelBtn());
   }
 
   //// Sync hidden scroll of param columns with visible scrollbar graphs column
@@ -222,6 +220,13 @@ class Results {
         }
       })
     });
+  }
+
+  //// Pause/Resume MT4 future execution
+  handlePauseBtn() {
+    const { getBtnCfg, setPauseBtn } = require('./app');
+    const paused = getBtnCfg().pauseBtn ^ 1;
+    setPauseBtn(paused);
   }
 
   //// Add another param column 
@@ -254,10 +259,28 @@ class Results {
     }
   }
 
-  handlepauseBtn() {
-    this.resultsCfg.paused == true ? this.elements.pauseBtn.textContent = 'Pause' : this.elements.pauseBtn.textContent = 'Resume';
-    this.resultsCfg.paused ^= true;
+  //// Delete all results by erasing folder contents and refreshing all results
+  handleDelBtn() {
+    const { loadPage } = require('./app');
+
+    this.resultsCfg.fullReport.forEach(el => {
+      fs.unlink(path.resolve(el['Graph']), (err) => {
+        if (err) return console.log('Error deleting: ' + el['Graph'])
+      })
+      fs.unlink(path.resolve(el['Report']), (err) => {
+        if (err) return console.log('Error deleting: ' + el['Report'])
+      })
+    });
+
+    fs.writeFile(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Reports\\report.json'), "[]", (err) => {
+      if (err) {
+        return console.log('Error writing to report.json');
+      }
+    });
+    
+    loadPage(2);
   }
+
 }
 
 //// Markup for one param column 

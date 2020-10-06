@@ -131,6 +131,16 @@
     transform: translateX(2px);
 }
 
+#results__refr--btn {
+    float: right;
+    margin-right: 5px;
+}
+
+#results__del--btn{
+    float: right;
+    margin-right: 15px;
+}
+
 /********** Graphs **********/
 .results__graphs {
     float: right;

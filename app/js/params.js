@@ -60,6 +60,9 @@ class Params {
     }
 
     handleRunBtn(eaCfg) {
+        const { getBtnCfg, setRunBtn } = require('./app');
+        if (getBtnCfg().continueBtn == true) return;
+
         this.updateParamCfg();
         // Create usr_settings.json
         createUsrSettings(eaCfg, this.paramsCfg);
@@ -69,7 +72,7 @@ class Params {
         spawnPyApp('eatester.exe', runBtn_OnStdOut, runBtn_OnClose, mt4path);
 
         // Change button text to "Running"
-        runBtnToggleRunning(true);
+        setRunBtn(true);
     }
 
     addRemHandler(event) {
@@ -173,31 +176,16 @@ const valToArray = (value) => {
     }
 };
 
-const runBtnToggleRunning = (on) => {
-    const { getElements } = require('./base');
-    const btn = getElements().params.runBtn;
-
-    if(on === true) {
-        btn.classList.add('nonactive');
-        btn.textContent = 'Running';
-    } else if(on === false) {
-        if (btn.classList.contains('nonactive')) {
-            btn.classList.remove('nonactive');
-            btn.textContent = 'Run';
-        }
-    }    
-}
-
-const isRunBtnRunning = () => {
-    
-}
-
-const runBtn_OnStdOut = (data, child) => {
-    const { loadPage } = require('./app');
+const runBtn_OnStdOut = async(data, child) => {
+    const { loadPage, getBtnCfg, mt4RunningEv } = require('./app');
 
     console.log("runBtn_OnStdOut: " + data);
+    // Read Run state - Run, Stop and respond to eatester.py with "y" or "n"
     if (data.toString().includes("Continue? (y/n):")) {
-        // Read Run state - Run, Stop and respond to eatester.py with "y" or "n"
+        const mt4ToRun = new Promise(resolve => mt4RunningEv.once('run', resolve));
+        if (getBtnCfg().pauseBtn == true) {
+            await mt4ToRun;
+        }   
         child.stdin.write("y\n");
     }
 
@@ -205,14 +193,14 @@ const runBtn_OnStdOut = (data, child) => {
 }
 
 const runBtn_OnClose = (data) => {
-    const { loadPage } = require('./app');
+    const { loadPage, setRunBtn } = require('./app');
 
-    runBtnToggleRunning(false);
+    // Change button text back to "Run"
+    setRunBtn(false);
     if (data == 0) {
         loadPage(2);
     }
 }
-
 
 //// Create usr_settings.json
 const createUsrSettings = (eaCfg, paramsCfg) => {

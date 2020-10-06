@@ -1,6 +1,7 @@
 const { ipcRenderer, remote } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const EventEmitter = require('events');
 const Ea = require('./ea');
 const Params = require('./params');
 const Results = require('./results');
@@ -106,6 +107,9 @@ const setRunBtn = (cfg) => {
 const setPauseBtn = (cfg) => {
     state.btnCfg.pauseBtn = cfg;
     handleBtns();
+    if (cfg == false) {
+        mt4RunningEv.emit('run');
+    }
 }
 
 const handleBtns = () => {
@@ -148,6 +152,7 @@ const handleBtns = () => {
 
 const getBtnCfg = () => state.btnCfg;
 
+const mt4RunningEv = new EventEmitter();
 
 exports.loadPage = loadPage;
 exports.saveConfig = saveConfig;
@@ -157,6 +162,7 @@ exports.setContinueBtn = setContinueBtn;
 exports.setRunBtn = setRunBtn;
 exports.handleBtns = handleBtns;
 exports.setPauseBtn = setPauseBtn;
+exports.mt4RunningEv = mt4RunningEv;
 
 
 /////////////////////////////////////////////////////
@@ -259,6 +265,8 @@ const initApp = () => {
 
     menuBtnHandler();
     loadPage(state.activePage);
+
+    mt4RunningEv.on('run', () => console.log('Pausing MT4 Run'));
 }
 
 initApp();
