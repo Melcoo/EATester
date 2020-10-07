@@ -49,7 +49,6 @@ class Params {
     btnHandler(eaCfg) {
         const { loadPage, saveConfig, loadConfig } = require('./app');
 
-        // this.elements.addRemBtns.addEventListener('click', event => addRemoveVal.bind(this));
         document.querySelectorAll('.params__addrembtn').forEach(el => {
             el.addEventListener('click', (event) => this.addRemHandler(event));
         })
@@ -87,6 +86,7 @@ class Params {
             // Update state.paramsCfg.param with added value
             this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]] = handleAddBtn(prevEl, paramNo, this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]]);
         }
+        displayNoOfCofigs(this.paramsCfg);
     }
 
     updateParamCfg() {
@@ -94,8 +94,6 @@ class Params {
         document.querySelectorAll('.params__pname').forEach(el => {
             if (Array.isArray(this.paramsCfg[el.textContent])) {
                 this.paramsCfg[el.textContent].forEach((val, idx) => {
-                    // console.log(el.textContent);
-                    // console.log(val);
                     this.paramsCfg[el.textContent][idx] = document.getElementById(el.id.replace('pname', 'pvalue') + '_' + idx).value;
                 })
             } else {
@@ -103,7 +101,7 @@ class Params {
             }
         })
     }
-}
+} 
 
 const renderOneParam = (param) => {
     return (`
@@ -175,6 +173,19 @@ const valToArray = (value) => {
         )
     }
 };
+
+const displayNoOfCofigs = (paramsCfg) => {
+    // Based on displayed values for each param, calculate number of config settings which MT4 will run
+    const { getElements } = require('./base');
+
+    let noOfCfg = 1;
+    for (const key in paramsCfg) {
+        if (Array.isArray(paramsCfg[key])) {
+            noOfCfg *= paramsCfg[key].length;
+        }
+    }
+    getElements().params.noOfConfig.textContent = 'This results in ' + noOfCfg + ' MT4 runs.'
+}
 
 const runBtn_OnStdOut = async(data, child) => {
     const { loadPage, getBtnCfg, mt4RunningEv } = require('./app');

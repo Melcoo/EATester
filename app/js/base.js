@@ -26,6 +26,7 @@ exports.getElements = () => {
         },
         params: {
             title: document.getElementById('params--title'),
+            noOfConfig: document.getElementById('params--info'),
             params: document.querySelector('.params__bottom'),
             runBtn: document.getElementById('params__run--btn'),
             saveBtn: document.getElementById('params__save--btn'),

@@ -72,8 +72,8 @@ class Results {
   handleOptions() {
     document.querySelectorAll('.results__param__select').forEach((el, idx) => {
       el.addEventListener('change', (event) => {
-        this.resultsCfg.visibleParams[idx] = event.srcElement[event.srcElement.selectedIndex].value;
-        event.target.nextSibling.nextElementSibling.id = `results__value--${event.srcElement[event.srcElement.selectedIndex].value}`;
+        this.resultsCfg.visibleParams[idx] = event.target[event.target.selectedIndex].value;
+        event.target.nextSibling.nextElementSibling.id = `results__value--${event.target[event.target.selectedIndex].value}`;
         this.clearAllVisible();
         this.renderResults();
       });
@@ -143,10 +143,11 @@ class Results {
     // Read array size (reportSize) from report.json
     let results = this.resultsCfg.fullReport;    
     let graphsRendered = false;
+    let tempResDisplayed = [];
 
     // Loop through all visible params (all displayes columns)
     this.resultsCfg.visibleParams.forEach(el => {
-      if (Object.keys(results[0]).includes(el)) {
+      if (Object.keys(results[0]).includes(el) && !tempResDisplayed.includes(el)) {
         // Loop through latest elements until noOfResults equals reportSize
         for (let idx = this.noOfResults; idx < results.length; idx++) {
           // Render each line filling columns with param value and graph
@@ -156,9 +157,16 @@ class Results {
           // document.getElementById(`results__value--${el}`).insertAdjacentHTML('beforeend', renderOneVal(results[idx][el]));
           // Only render graphs once (not for all param value columns)
           if (!graphsRendered) {
-            document.querySelector('.results__graphlist').insertAdjacentHTML('beforeend', renderOneGraph(results[idx]["Report"], results[idx]["Graph"]));
+            if (fs.existsSync(results[idx]["Graph"])) {
+              document.querySelector('.results__graphlist').insertAdjacentHTML('beforeend', renderOneGraph(results[idx]["Report"], results[idx]["Graph"]));
+            } else {
+              document.querySelector('.results__graphlist').insertAdjacentHTML('beforeend', renderOneGraph(results[idx]["Report"], path.resolve(__dirname, '..\\css\\NotAvailable.gif')));
+            }
+
+            
           } 
         }
+        tempResDisplayed.push(el);
         graphsRendered = true;
       }
     });
@@ -214,9 +222,8 @@ class Results {
       el.addEventListener('click', event => {
         if (event.target) {
           event.preventDefault();
-          let link = event.currentTarget.href;
-          const{ shell } = require('electron');
-          shell.openExternal(link);
+          const { shell } = require('electron');
+          shell.openExternal(event.currentTarget.href);
         }
       })
     });
