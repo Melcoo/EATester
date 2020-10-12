@@ -4,7 +4,6 @@
 const fs = require('fs');
 const { getElements } = require('./base');
 const { spawnPyApp } = require('./py');
-const { getBtnCfg } = require('./app')
  
 
 class Ea {
@@ -116,10 +115,11 @@ const templ_OnStdOut = (data, child) => {
 }
 
 const templ_OnClose = (data) => {
-    const { loadPage, setContinueBtn } = require('./app');
+    const { loadPage, setContinueBtn, clearParamsCfg } = require('./app');
 
     if (data == 0) {
-        setContinueBtn(false); 
+        setContinueBtn(false);
+        clearParamsCfg();
         loadPage(1);
     }
 }

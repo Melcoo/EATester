@@ -154,6 +154,11 @@ const getBtnCfg = () => state.btnCfg;
 
 const mt4RunningEv = new EventEmitter();
 
+const clearParamsCfg = () => {
+    state.paramsCfg = {};
+}
+
+
 exports.loadPage = loadPage;
 exports.saveConfig = saveConfig;
 exports.loadConfig = loadConfig;
@@ -163,6 +168,7 @@ exports.setRunBtn = setRunBtn;
 exports.handleBtns = handleBtns;
 exports.setPauseBtn = setPauseBtn;
 exports.mt4RunningEv = mt4RunningEv;
+exports.clearParamsCfg = clearParamsCfg;
 
 
 /////////////////////////////////////////////////////
@@ -171,7 +177,7 @@ exports.mt4RunningEv = mt4RunningEv;
 let selectEaEl = '';
 
 //// Run EA Page code
-const controlEa = () => {
+const initEa = () => {
     const ea = new Ea(state.eaCfg, pages);
 
     // Display old data stored before leaving EA page
@@ -182,7 +188,7 @@ const controlEa = () => {
 /////////////////////////////////////////////////////
 ///  Page 1: PARAMS
 /////////////////////////////////////////////////////
-const controlParams = () => {
+const initParams = () => {
     const params = new Params(state.eaCfg.eaName, state.paramsCfg);
 
     // Display param names and values based on .json template 
@@ -196,7 +202,7 @@ const controlParams = () => {
 /////////////////////////////////////////////////////
 ///  Page 2: RESULTS
 /////////////////////////////////////////////////////
-const controlResults = () => {
+const initResults = () => {
     const results = new Results(state.eaCfg.eaName, state.resultsCfg);
 
     // Display columns with param names based on report.json and state.paramsCfg array values
@@ -241,19 +247,19 @@ const pages = [
     {
         name: 'ea',
         url: 'html\\ea.html',
-        initFn: controlEa,
+        initFn: initEa,
         btnEl: 'nav__btn--ea'
     },
     {
         name: 'params',
         url: 'html\\params.html',
-        initFn: controlParams,
+        initFn: initParams,
         btnEl: 'nav__btn--param'
     },
     {
         name: 'results',
         url: 'html\\results.html',
-        initFn: controlResults,
+        initFn: initResults,
         btnEl: 'nav__btn--res'
     }
 ];

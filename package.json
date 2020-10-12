@@ -31,15 +31,15 @@
   },
   "homepage": "https://github.com/Melcoo/EATester#readme",
   "devDependencies": {
-    "electron": "^9.1.0",
-    "electron-builder": "^22.7.0",
+    "electron": "^9.3.2",
+    "electron-builder": "^22.8.1",
     "electron-reload": "^1.5.0"
   },
   "dependencies": {
-    "electron-log": "^4.2.2",
-    "electron-updater": "^4.3.1",
+    "electron-log": "^4.2.4",
+    "electron-updater": "^4.3.5",
     "npm-run-batch": "0.0.9",
-    "python-shell": "^2.0.1"
+    "python-shell": "^2.0.2"
   },
   "build": {
     "appId": "com.electron.eatester",

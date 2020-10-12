@@ -43,7 +43,7 @@ class Params {
 
             this.elements.params.insertAdjacentHTML('beforeend', renderOneParam(param));
         });
-        
+        displayNoOfCofigs(this.paramsCfg);
     }
 
     btnHandler(eaCfg) {
@@ -229,7 +229,7 @@ const createUsrSettings = (eaCfg, paramsCfg) => {
     };
 
     // For built app
-    // const usrSettingsPath = fs.readFileSync(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
+    // const usrSettingsPath = path.resolve(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
     // For running app
     const usrSettingsPath = path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
     if (usrSettingsPath) {
