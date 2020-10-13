@@ -27,9 +27,9 @@ class Params {
         } else {
             // Parse ea_settings_templ.json and get EA param names and default values
             // For built app
-            // paramsConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Templ\\ea_settings_templ.json')); 
+            paramsConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Templ\\ea_settings_templ.json')); 
             // For running app
-            paramsConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Templ\\ea_settings_templ.json'))); 
+            // paramsConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Templ\\ea_settings_templ.json'))); 
             for(var prop in paramsConfig) {
                 this.paramsCfg[prop] = paramsConfig[prop];
             }
@@ -229,9 +229,9 @@ const createUsrSettings = (eaCfg, paramsCfg) => {
     };
 
     // For built app
-    // const usrSettingsPath = path.resolve(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
+    const usrSettingsPath = path.resolve(path.join(__dirname, '..\\..\\..\\..') + '\\app\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
     // For running app
-    const usrSettingsPath = path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
+    // const usrSettingsPath = path.resolve(__dirname, '..\\pyapp\\EATesterPy\\Settings\\usr_settings.json'); 
     if (usrSettingsPath) {
         fs.writeFile(usrSettingsPath, JSON.stringify(usrSettings), (err) => {
             if (err) {
