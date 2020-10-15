@@ -10,6 +10,8 @@ const { getElements } = require('./base');
 
 let elements = '';
 const STARTPAGE = 0;
+const BUILT_APP = true;
+
 
 /////////////////////////////////////////////////////
 ///  Menu Bar
@@ -151,14 +153,14 @@ const handleBtns = () => {
 }
 
 const getBtnCfg = () => state.btnCfg;
-
 const mt4RunningEv = new EventEmitter();
-
 const clearParamsCfg = () => {
     state.paramsCfg = {};
 }
+const builtApp = () => BUILT_APP;
 
 
+exports.builtApp = builtApp;
 exports.loadPage = loadPage;
 exports.saveConfig = saveConfig;
 exports.loadConfig = loadConfig;

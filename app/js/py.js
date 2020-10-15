@@ -6,15 +6,18 @@ const path = require('path');
 
 exports.spawnPyApp = (app, onStdOut, onClose, ...args) => {
     const { spawn } = require('child_process');
-    let pyOutput = '';
+    const { builtApp } = require('./app');
+    let pyApp = '';
 
-    // // For built app
-    // const pyApp = spawn(`"` + path.join(__dirname, '..\\..\\..\\..') + `\\app\\pyapp\\EATesterPy\\Tester\\dist\\${app}"`, args, {shell:true});
-    // // For running app
+    if (builtApp() == true) {
+        // For built app
+        pyApp = spawn(`"` + path.join(__dirname, '..\\..\\..\\..') + `\\app\\pyapp\\EATesterPy\\Tester\\dist\\${app}"`, args, {shell:true});
+    } else {
+        // For running app
+        pyApp = spawn(`"` + __dirname + `\\..\\pyapp\\EATesterPy\\Tester\\dist\\${app}"`, args, { shell:true });
+    }
     console.log(args);
-    const pyApp = spawn(`"` + __dirname + `\\..\\pyapp\\EATesterPy\\Tester\\dist\\${app}"`, args, { shell:true });
-    // const pyApp = await spawn('cmd', ['"' + __dirname + "\\..\\pyapp\\EATesterPy\\Tester\\dist\\eatester.exe" + '"', args], {shell:true});
- 
+
     pyApp.stdout.on('data', (data) => { 
         onStdOut(data, pyApp);
     });
