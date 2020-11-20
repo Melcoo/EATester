@@ -280,3 +280,14 @@ const initApp = () => {
 initApp();
 
 
+/////////////////////////////////////////////////////
+///  Debugging
+/////////////////////////////////////////////////////
+
+remote.globalShortcut.register('CommandOrControl+Shift+K', () => {
+    remote.BrowserWindow.getFocusedWindow().webContents.openDevTools()
+  })
+  
+  window.addEventListener('beforeunload', () => {
+    remote.globalShortcut.unregisterAll()
+  })
