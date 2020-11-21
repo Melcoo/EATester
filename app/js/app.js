@@ -184,6 +184,9 @@ const initEa = () => {
 
     // Display old data stored before leaving EA page
     ea.restoreOldData();
+
+    // First time after app is installed, display info
+    showInfo();
 }
 
 
@@ -281,7 +284,7 @@ initApp();
 
 
 /////////////////////////////////////////////////////
-///  Debugging
+///  Debugging and messages
 /////////////////////////////////////////////////////
 
 remote.globalShortcut.register('CommandOrControl+Shift+K', () => {
@@ -291,3 +294,36 @@ remote.globalShortcut.register('CommandOrControl+Shift+K', () => {
   window.addEventListener('beforeunload', () => {
     remote.globalShortcut.unregisterAll()
   })
+
+const showInfo = () => {
+    const Store = require('electron-store');
+    const store = new Store();
+    let showMsg = false;
+
+    switch(store.get('noOfAppRuns')) {
+        case 2:
+            // No need to display any message
+            break;
+        case 1:
+            store.set('noOfAppRuns', 2);
+            showMsg = true;
+            break;
+        case undefined:
+            store.set('noOfAppRuns', 1);
+            showMsg = true;
+            break;
+        default: 
+            break;
+    }
+
+    if (showMsg) {
+        const { dialog } = require('electron').remote;
+        
+        dialog.showMessageBoxSync({
+            type: 'info',
+            title: 'Before using this app',
+            message: 'Make sure you run MT4 terminal at least one time in "portable" mode and you are logged in.\n\nMake sure you have Expert Advisors in "..\\MQL4\\Experts" folder.',
+            buttons: ['Ok']
+        });
+    }
+};

@@ -68,8 +68,32 @@ class Ea {
 
     //// Display EA options
     enableEa() {
-        const { setContinueBtn } = require('./app')
-        const files = fs.readdirSync(this.eaCfg.mt4path + '\\MQL4\\Experts\\');
+        const { setContinueBtn } = require('./app');
+        let files;
+
+        if (!fs.existsSync(this.eaCfg.mt4path + '\\reports')){
+            try {
+                fs.mkdirSync(this.eaCfg.mt4path + '\\reports');
+            } catch {
+                this.elements.mt4path.value = this.eaCfg.mt4path + "\\reports\ does not exist!";
+                document.querySelectorAll('input[name="ea__to_disable"]').forEach(el => {
+                    el.setAttribute("disabled", "");
+                });
+    
+                setContinueBtn(true);
+            }    
+        }
+
+        if (fs.existsSync(this.eaCfg.mt4path + '\\MQL4\\Experts')) {
+            files = fs.readdirSync(this.eaCfg.mt4path + '\\MQL4\\Experts');
+        } else {
+            this.elements.mt4path.value = this.eaCfg.mt4path + '\MQL4\\Experts\ does not exist!';
+            document.querySelectorAll('input[name="ea__to_disable"]').forEach(el => {
+                el.setAttribute("disabled", "");
+            });
+
+            setContinueBtn(true);
+        }
 
         this.selectEa.textContent = '';
         files.forEach(el => {
