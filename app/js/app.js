@@ -85,7 +85,7 @@ const loadConfig = () => {
     if (cfgPath) {
         state = JSON.parse(fs.readFileSync(cfgPath[0]));
         state.btnCfg = {
-            continueBtn: true,
+            continueBtn: false,
             runBtn: false,
             pauseBtn: false
         }

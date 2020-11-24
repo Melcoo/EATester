@@ -40,17 +40,12 @@ class Results {
       this.resultsCfg.params = Object.keys(this.resultsCfg.fullReport[0]).filter(el => ((el != "Parameters") && (el != "Graph") && (el != "Report")));
     }
 
-    // Read parameter list from Param page and find array parameters
-    if (paramsCfg) {
-      // Add them to the visible params columns
-      Object.keys(paramsCfg).map((el) => {
-        if (Array.isArray(paramsCfg[el]) && (!this.resultsCfg.visibleParams.includes(el))) {
-          this.resultsCfg.visibleParams.push(el);
-        }
-      });
-      // Add as options list all parameters from params Page
-      this.resultsCfg.params.push(...Object.keys(paramsCfg)); 
-    }
+    // Add as options list all parameters from params Page
+    Object.keys(paramsCfg).forEach(el => {
+      if (this.resultsCfg.params.includes(el)) {
+        this.resultsCfg.params.push(el);
+      }
+    });
 
     this.renderParamColumns();
   }
@@ -123,9 +118,9 @@ class Results {
           let i = 0;
           for (let j in tempReport) {
             // Descendent sorting - highest value spliced/added first
-            if ((ascending == false) && (parseInt(tempReport[j][paramName]) > parseInt(el[paramName]))) i++;
+            if ((ascending == false) && (Number(tempReport[j][paramName]) > Number(el[paramName]))) i++;
             // Ascending order - lowest value spliced/added first
-            if ((ascending == true) && (parseInt(tempReport[j][paramName]) < parseInt(el[paramName]))) i++;
+            if ((ascending == true) && (Number(tempReport[j][paramName]) < Number(el[paramName]))) i++;
           }
           tempReport.splice(i, 0, el);
         }

@@ -58,7 +58,10 @@ class Params {
         })
         
         this.elements.runBtn.addEventListener('click', () => this.handleRunBtn(eaCfg));
-        this.elements.saveBtn.addEventListener('click', () => saveConfig());
+        this.elements.saveBtn.addEventListener('click', () => {
+            this.updateParamCfg();
+            saveConfig();
+        });
         this.elements.loadBtn.addEventListener('click', () => loadConfig());
     }
 
@@ -82,7 +85,8 @@ class Params {
         const btnId = event.currentTarget.id;
         const paramNo = btnId.split('--')[1];
         const prevEl = event.currentTarget.parentNode.previousElementSibling;
-        
+
+        this.updateParamCfg();
         if (btnId.includes('params__prem')) {
             // Update state.paramsCfg.param with removed value
             this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]] = handleRemBtn(prevEl, this.paramsCfg[Object.keys(this.paramsCfg)[paramNo]]);
