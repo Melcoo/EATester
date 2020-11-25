@@ -42,7 +42,7 @@ class Results {
 
     // Add as options list all parameters from params Page
     Object.keys(paramsCfg).forEach(el => {
-      if (this.resultsCfg.params.includes(el)) {
+      if (!this.resultsCfg.params.includes(el)) {
         this.resultsCfg.params.push(el);
       }
     });

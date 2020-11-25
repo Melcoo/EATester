@@ -184,9 +184,6 @@ const initEa = () => {
 
     // Display old data stored before leaving EA page
     ea.restoreOldData();
-
-    // First time after app is installed, display info
-    showInfo();
 }
 
 
@@ -278,6 +275,11 @@ const initApp = () => {
     loadPage(state.activePage);
 
     mt4RunningEv.on('run', () => console.log('Pausing MT4 Run'));
+
+    // First time after app is installed, display info
+    setTimeout(() => { 
+        showInfo();
+    }, 3000);
 }
 
 initApp();

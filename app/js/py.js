@@ -26,5 +26,5 @@ exports.spawnPyApp = (app, onStdOut, onClose, ...args) => {
     });
     pyApp.on('close', (code) => {
         onClose(code);
-      });
+    });
 }
