@@ -1,6 +1,6 @@
 {
   "name": "EATester",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Application to automatically test MT4 Expert Advisors",
   "main": "main.js",
   "scripts": {
@@ -59,6 +59,7 @@
       "app/pyapp/EATesterPy/Tester/dist/eatester.exe",
       "app/pyapp/EATesterPy/Tester/dist/reports.exe",
       "app/pyapp/EATesterPy/Tester/dist/templ.exe",
+      "app/pyapp/EATesterPy/Tester/dist/convert.exe",
       "app/pyapp/EATesterPy/Templ/ea_settings_templ.ini",
       "app/pyapp/EATesterPy/Templ/ea_settings_templ.json",
       "app/pyapp/EATesterPy/Templ/st_settings_templ.ini",

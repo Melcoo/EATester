@@ -10,6 +10,7 @@ const visibleParams = [
   "Absolute drawdown",
   "Maximal drawdown"
 ];
+let xls = '';
 
 
 class Results {
@@ -191,7 +192,7 @@ class Results {
 
     this.elements.saveBtn.addEventListener('click', () => saveConfig());
     this.elements.loadBtn.addEventListener('click', () => loadConfig());
-    this.elements.pauseBtn.addEventListener('click', () => this.handlePauseBtn());
+    this.elements.pauseBtn.addEventListener('click', () => this.handlePauseXlsBtn());
     this.elements.addBtn.addEventListener('click', () => this.handleAddBtn());
     this.elements.remBtn.addEventListener('click', () => this.handleRemBtn());
     this.elements.refrBtn.addEventListener('click', () => loadPage(2));
@@ -226,11 +227,17 @@ class Results {
     });
   }
 
-  //// Pause/Resume MT4 future execution
-  handlePauseBtn() {
+  //// Pause/Resume MT4 future execution or Export to .xls
+  handlePauseXlsBtn() {
     const { getBtnCfg, setPauseBtn } = require('./app');
-    const paused = getBtnCfg().pauseBtn ^ 1;
-    setPauseBtn(paused);
+
+    if (getBtnCfg().runBtn == true) {
+      const paused = getBtnCfg().pauseBtn ^ 1;
+      setPauseBtn(paused);
+    } else {
+      exportXls();
+    } 
+    
   }
 
   //// Add another param column 
@@ -284,7 +291,6 @@ class Results {
     
     loadPage(2);
   }
-
 }
 
 //// Markup for one param column 
@@ -322,5 +328,38 @@ const renderOneGraph = (href, img) => {
   `);
 }
 
+const exportXls = () => {
+  const { dialog } = require('electron').remote;
+
+  const dialogOptions = {
+    title: 'Export to Excel file',
+    filters: [{
+        name: 'Excel report', 
+        extensions: ['xls']
+      }]
+  };
+
+  const xlsFile = dialog.showSaveDialogSync(dialogOptions);
+  if (xlsFile) {
+    const { spawnPyApp } = require('./py');
+    const xlsPath  = '"' + xlsFile + '"';
+    const ea_name = '"' + getElements().results.title.textContent + '"';
+
+    spawnPyApp('convert.exe', exportXls_OnStdOut, exportXls_OnClose, ea_name, xlsPath);
+    xls = xlsFile;
+  }
+}
+
+const exportXls_OnStdOut = (data) => {
+  console.log("ExportXls_OnStdOut: " + data);
+}
+
+const exportXls_OnClose = (data) => {
+  console.log("ExportXls_OnStdClose: " + data);
+  if (data == 0 && xls != '') {
+    const { shell } = require('electron');
+    shell.openExternal(xls);
+  }
+}
 
 module.exports = Results;

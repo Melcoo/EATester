@@ -136,8 +136,8 @@ const handleBtns = () => {
             break;
         case 2:
             btnEl = getElements().results.pauseBtn;
-            textActive = 'Pause';
-            textInactive = 'Resume';
+            state.btnCfg.runBtn == true ? textActive = 'Pause' : textActive = 'Export Xls';
+            state.btnCfg.runBtn == true ? textInactive = 'Resume' : textInactive = 'Export Xls';
             btnCfg = state.btnCfg.pauseBtn;
 
             break;                         
