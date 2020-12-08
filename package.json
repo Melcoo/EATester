@@ -1,6 +1,6 @@
 {
   "name": "EATester",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "description": "Application to automatically test MT4 Expert Advisors",
   "main": "main.js",
   "scripts": {
